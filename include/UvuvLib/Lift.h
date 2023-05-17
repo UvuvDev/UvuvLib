@@ -8,7 +8,7 @@
 #include "MotorGroup.h"
 
 class UvuvLift {
-private: //p
+private: 
 
 protected:
 
@@ -16,6 +16,7 @@ protected:
     PIDFFController* pidController;
 
     float lengthOfArm = 0; // SPECIFY IN INCHES
+    int gamepiecesHeld = 0;
 
     bool isHoldingPiece = false;
     bool keepInPlace = false;
@@ -42,17 +43,17 @@ public:
     UvuvLift(std::vector<std::pair<int, motorRotation>> motorParameters, int lengthOfArmArg, 
         PIDFFController* pidControllerArg);
 
-    void keepConstantHeight(float inchesFromGround);
+    void keepConstantHeight(float inchesFromGround); // Keeps 
 
     void moveToMaxHeight();
 
     void moveToMinimumHeight();
 
-    bool getIsHoldingObject();
+    int getObjectsBeingHeld();
 
-    void objectGrabbed(); // Says that the lift is now holding an object
+    void grabObject(int count = 0); // Says that the lift is now holding an object
 
-    void objectDropped(); // Says that the lift dropped the object
+    void dropObject(int count = 0); // Says that the lift dropped the object
 
     void moveToHeight(float inchesFromGround);
 
