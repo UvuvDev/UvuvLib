@@ -88,7 +88,7 @@ void autonomous() {}
 void opcontrol() {
 	
 	
-	graph.addInputs(std::vector<std::pair<double *, std::string>> ptrsToInputsArg)
+	
 
 	graph.beginGraphing();
 
