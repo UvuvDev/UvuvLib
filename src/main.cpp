@@ -1,12 +1,17 @@
 #include "main.h"
 #include "UvuvLib/Drivetrain.h"
+#include "UvuvLib/GraphingTool.h"
 #include "UvuvLib/PIDTuner.h"
 #include "UvuvLib/UvuvController.h"
 #include "pros/misc.h"
 #include "UvuvLib/UvuvMain.h"
 #include <sys/types.h>
 
-UvuvDrivetrain drivetrain();
+
+//UvuvDrivetrain drivetrain();
+
+UvuvGraphingTool graph("bruh", {0, 100}, 20, false, false);
+
 
 /**
  * A callback function for LLEMU's center button.
@@ -82,4 +87,12 @@ void autonomous() {}
 
 void opcontrol() {
 	
+	
+	graph.addInputs(std::vector<std::pair<double *, std::string>> ptrsToInputsArg)
+
+	graph.beginGraphing();
+
+	while (1) {
+
+	}
 }

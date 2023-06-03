@@ -3,7 +3,8 @@
 #include "main.h"
 
 
-class UvuvController {
+
+class UvuvBasicController {
 private:
 
 protected:
@@ -12,9 +13,11 @@ protected:
 
 public:
 
-    UvuvController(pros::controller_id_e_t controllerID);
+    UvuvBasicController(pros::controller_id_e_t controllerID);
     
-    ~UvuvController();
+  
+
+    ~UvuvBasicController();
 
     bool getButtonCombination(pros::controller_digital_e_t button, pros::controller_digital_e_t button2);
 
@@ -26,6 +29,33 @@ public:
 
     bool getJoystick(pros::controller_analog_e_t whichJoystick);
 
-    int getMode();
+    
+
+};
+
+class UvuvAdvancedController : UvuvBasicController {
+private:
+
+protected:
+
+    
+    std::vector<std::string> modes;
+    std::vector<std::pair<pros::controller_digital_e_t, int*>> buttonsToFunctions; 
+
+public:
+
+    
+
+    UvuvAdvancedController(pros::controller_id_e_t controllerID, std::vector<std::string> modesParam);
+
+    ~UvuvAdvancedController();
+
+    std::string getMode();
+
+    void setMode(std::string modeParam);
+    
+    void setFuncToButton();
+
+    void start();
 
 };
