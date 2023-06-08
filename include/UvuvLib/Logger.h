@@ -23,7 +23,14 @@ public:
 
     bool setTimestamp = true;
 
-    Logger(LoggingType type, graphy::AsyncGrapher* graphToolArg);
+    /**
+     * @brief Construct a new Logger object
+     * 
+     * @param type 
+     * @param filenameArg Must have /usd/ at the beginning. Otherwise it won't work.
+     * @param graphToolArg 
+     */
+    Logger(LoggingType type, const char* filenameArg = "/usd/LOG.txt", graphy::AsyncGrapher* graphToolArg = nullptr);
 
     template<class LogDataType>
     void LogSDCard(std::vector<LogDataType> dataVector);
@@ -38,5 +45,9 @@ public:
     void LogLoop(std::vector<LogDataType> dataVector);
 
 
+
+};
+
+class Poller {
 
 };

@@ -52,7 +52,7 @@ public:
 
     std::string getMode();
 
-    void setMode(std::string modeParam);
+    void setMode(std::string modeParam); 
     
     void setFuncToButton();
 

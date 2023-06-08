@@ -5,6 +5,48 @@
 
 #include "Definitions.h"
 
+struct Range {
+private:
+    double lower; // Lower bound of the range
+    double higher; // Higher bound of the range
+public:
+
+    /**
+     * @brief Construct a new Range object
+     * 
+     * @param lowerArg Lower bound of the range
+     * @param higherArg Higher bound of the range
+     */
+    Range(double lowerArg, double higherArg) {
+        lower = lowerArg;
+        higher = higherArg;
+    }
+
+    /**
+     * @brief Construct a new Range object. Defaults to 0, 0
+     * 
+     */
+    Range() {
+        lower = 0;
+        higher = 0;
+    }
+
+    /**
+     * @brief Get the Lower Bound of the range.
+     * 
+     * @return double 
+     */
+    double getLowerBound();
+
+    /**
+     * @brief Get the Higher Bound of the range
+     * 
+     * @return double 
+     */
+    double getHigherBound();
+
+};
+
 /*------------------------------------------------------------*/
 
 double averageNumbers(std::vector<double> numbersToAverage);
