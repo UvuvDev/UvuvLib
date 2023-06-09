@@ -92,7 +92,7 @@ void InputReader::inputsIntoMap(int globalTick) {
 
 /*------------------------------------------------------------*/
 
-void ShadowController::quickSaver() {
+void InputReader::quickSaver() {
     for (int f = 0; f <= inputMapLength; f++) {
         for (int i = 0; i <= inputSourceNum; i++) {
             readInputsMap[f][i] = 1;

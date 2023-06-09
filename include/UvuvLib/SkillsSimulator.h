@@ -2,25 +2,16 @@
 #include "UvuvController.h"
 #include "AutonSelector.h"
 #include "InputReader.h"
-#include "Logger.h"
+#include "LoggerPoller.h"
 #include "ShapesAndCoords.h"
 
-
-struct PerformancePoller {
-private:
-
-    FILE* writtenFile; // File to write/read from
-
-public:
-
-    Range getPerformanceOnIndex(int index); // Get the performance on a specific index
-
-};
 
 
 class SkillsSimulation {
 private:
 
+    int amountOfSkillsSimsDone; // The amount of skills simulations that have been done. Used for saving the data to the
+        // file.
     
     UvuvBasicController* controller; // Pointer to the controller driver is using
 
@@ -28,7 +19,9 @@ private:
 
     InputReader* inputReader; // A pointer to the input reader, to track misinputs
 
-    Logger* logger; // Logger for the simulation
+    Logger* logger; // Logger for the saving the simulation results
+
+    Poller* poller; // Poller for getting past simulation results
 
     std::vector<Circle> circles; // Vector of circles that will be used for the performance evaluation
 

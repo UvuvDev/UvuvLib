@@ -49,5 +49,32 @@ public:
 };
 
 class Poller {
+private:
+
+    FILE* filePointer; // Pointer to the file the Poller will be reading from. 
+
+    int bufferLength = 0; // Length of the buffer to read from the file. 
+
+    std::vector<uint32_t> fileContent; // Content of the file. Will have to be parsed through after obtaining. 
+
+protected:
+
+public: 
+
+    /**
+     * @brief Construct a new Poller object.
+     * 
+     * @param filePointerArg Pointer to the file being read.
+     * @param bufferLengthArg The length of the data being read. VERY IMPORTANT!!
+     */
+    Poller(FILE* filePointerArg, int bufferLengthArg);
+
+    /**
+     * @brief Get the Data from the SD Card.
+     * 
+     * @return std::vector<uint32_t> 
+     */
+    std::vector<uint32_t> getData();
+
 
 };
