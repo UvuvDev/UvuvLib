@@ -9,7 +9,7 @@
 #include "PTO.h"
 
 
-class UvuvBasicLit {
+class UvuvBasicLift {
 private:
 
 protected:
@@ -26,7 +26,7 @@ public:
 
     UvuvBasicLift(UvuvMotorGroup* liftMotorsArg, int lengthOfArmArg, PIDFFController* pidFFControllerArg);
 
-    rotateLiftTo(float degrees);
+    void rotateLiftTo(float degrees);
 
 };
 

@@ -37,6 +37,8 @@ protected:
     const char* graphName = "PID Tuner";
     const int waitTimeBetweenUpdate = 20;
 
+    float HausdorffDimension = 0; // The Hausdorff Dimension, the measure of how rough the graph is.
+
     E_MotorAPI motorAPI;
 
     PIDController* pidController;
@@ -53,8 +55,6 @@ protected:
     BasicFilter* filter;
     UvuvGraphingTool* graph;
 
-    std::vector<float> deviationVector;
-
     Gearing gearing;
 
     float kP; 
@@ -63,17 +63,47 @@ protected:
     
     UvuvGeneralPIDTuner();
 
-    float sinGraph(int index, float amplitude, float period, float verticalShift, float horizontalShift);
+    void calculateHausdorffDimension(); // Calculate the Hausdorff Dimension of the graph.
 
+    
 public:
 
+    /**
+     * @brief Construct a new Uvuv General PID Tuner object
+     * 
+     * @param type The type of PID you want to tune. Specified using DesiredPIDType enum.
+     * @param untunedPIDController The PID Controller being used.
+     * @param uvuvMotorPtr UvuvMotor pointer.
+     */
     UvuvGeneralPIDTuner(DesiredPIDType type, PIDController* untunedPIDController, UvuvMotor* uvuvMotorPtr);
 
+    /**
+     * @brief Construct a new Uvuv General PID Tuner object
+     * 
+     * @param type The type of PID you want to tune. Specified using DesiredPIDType enum.
+     * @param untunedPIDController The PID Controller being used.
+     * @param uvuvMotorPtr UvuvMotor Group pointer.
+     */
     UvuvGeneralPIDTuner(DesiredPIDType type, PIDController* untunedPIDController, UvuvMotorGroup* uvuvMotorGroupPtr);
 
+    /**
+     * @brief Construct a new Uvuv General PID Tuner object
+     * 
+     * @param type The type of PID you want to tune. Specified using DesiredPIDType enum.
+     * @param untunedPIDController The PID Controller being used.
+     * @param uvuvMotorPtr PROS Motor pointer.
+     */
     UvuvGeneralPIDTuner(DesiredPIDType type, PIDController* untunedPIDController, pros::Motor* prosMotorPtr, Gearing gearingArg);
 
+    /**
+     * @brief Construct a new Uvuv General PID Tuner object
+     * 
+     * @param type The type of PID you want to tune. Specified using DesiredPIDType enum.
+     * @param untunedPIDController The PID Controller being used.
+     * @param uvuvMotorPtr UvuvMotor pointer.
+     */
     UvuvGeneralPIDTuner(DesiredPIDType type, PIDController* untunedPIDController, pros::MotorGroup* prosMotorGroupPtr, Gearing gearingArg);
+
 
     ~UvuvGeneralPIDTuner();
 
@@ -82,7 +112,7 @@ public:
      * 
      * @return std::vector<float> 
      */
-    std::vector<float> generatePIDValues();
+    PIDConstants generatePIDValues();
 
 };
 

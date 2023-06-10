@@ -3,6 +3,22 @@
 #include "Math.h"
 
 
+struct PIDConstants {
+
+	float kP, kI, kD, kV;
+
+	/**
+	 * @brief Construct a new PIDConstants object with all 3 constants. 
+	 * 
+	 * @param kPParam kP Value
+	 * @param kIParam kI Value
+	 * @param kDParam kD Value
+	 * @param kVParam kV Value, optional. Defaults to 0.
+	 */
+	PIDConstants(float kPParam, float kIParam, float kDParam, float kVParam = 0) : kP(kPParam), kI(kIParam), kD(kDParam), kV(kVParam){}
+
+};
+
 class PIDController { // Basic PID controller, can be used for literally anything you want.
 protected:
 		
