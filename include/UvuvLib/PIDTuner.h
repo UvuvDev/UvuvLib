@@ -63,8 +63,35 @@ protected:
     
     UvuvGeneralPIDTuner();
 
-    void calculateHausdorffDimension(); // Calculate the Hausdorff Dimension of the graph.
+    /**
+     * @brief Calculate the Hausdorff Dimension of the graph.
+     * 
+     */
+    void calculateHausdorffDimension(); 
 
+    /**
+     * @brief Calculate kP with either calculating the Hausdorff Dimension or through guessing and testing until the target
+     * RPM matches the output, depending on the PID type.
+     * 
+     * Dimensions = log N / log 1/h, where N is the number of grid boxes that overlap the graph and h is the number of grid boxes.
+     *
+     */
+    void calculateP();
+
+    /**
+     * @brief TEMPORARILY NOT USED. WILL BE SUPPORTED IN THE FUTURE.
+     * 
+     */
+    void calculateI();
+
+    /**
+     * @brief Calculate kD by finding how low the overshoot can go without affecting the difference between target RPM and actual RPM,
+     * or getting how close the graph is to a straight line, depending on the PID type.
+     *
+     * TargetRPM - ActualRPM = Difference, Difference - CONSTANT > 0 or else the D is tuned.
+     * 
+     */
+    void calculateD();
     
 public:
 
