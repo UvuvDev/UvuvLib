@@ -4,11 +4,14 @@
 #include <math.h>
 
 #include "Definitions.h"
+#include "Motor.h"
 
 struct Range {
 private:
+
     double lower; // Lower bound of the range
     double higher; // Higher bound of the range
+
 public:
 
     /**
@@ -87,8 +90,6 @@ float convertInchesToDegrees(float inches, float wheelDiameter);
 
 float convertDegreesToInches(float rotations, float wheelDiameter);
 
-
-
 /*------------------------------------------------------------*/
 
 uint8_t signum(double x);
@@ -104,6 +105,14 @@ int getRPM(pros::Motor* motor, Gearing gearing);
 /*------------------------------------------------------------*/
 
 int getRPM(pros::MotorGroup* motor, Gearing gearing);
+
+/*------------------------------------------------------------*/
+
+int getRPM(UvuvMotor* motor, Gearing gearing);
+
+/*------------------------------------------------------------*/
+
+int getRPM(UvuvMotorGroup* motor, Gearing gearing);
 
 /*------------------------------------------------------------*/
 

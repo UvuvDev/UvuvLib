@@ -1,6 +1,11 @@
 #pragma once
+#include "Definitions.h"
 #include "main.h"
-#include "MotorGroup.h"
+#include "Motor.h"
+#include "PID.h"
+#include "UvuvController.h"
+#include "GraphingTool.h"
+#include "pros/misc.hpp"
 
 class UvuvDrivetrain {
 private:
@@ -15,10 +20,21 @@ private:
 
 	int rightSideVoltage = 0; 
 
+	std::vector<int> filteredLeftVolt = {0, 0, 0, 0};
+
+	std::vector<int> filteredRightVolt = {0, 0, 0, 0};
+
     uint8_t percisionPercentage = 100;
 
     UvuvMotorGroup* driveLeftSide;
     UvuvMotorGroup* driveRightSide;
+
+	UvuvBasicController* uvuvControllerPtr;
+	pros::Controller* prosControllerPtr;
+
+	Gearing dtGearing;
+
+	float wheelSize;
 
     bool hasJerkControl = false;
     bool hasActiveBraking = false; 
@@ -39,19 +55,26 @@ public:
 	 * 
 	 * @param leftSidePtr Pointer to the left side motor group
 	 * @param rightSidePtr Pointer to the right side motor group
+	 * @param gearingArg The gearing of the drivetrain
+	 * @param wheelSizeArg The size of the wheels IN INCHES
+	 * @param controllerPtr Pointer to your UvuvController
 	 */
-	UvuvDrivetrain(UvuvMotorGroup* leftSidePtr, UvuvMotorGroup* rightSidePtr);
+	UvuvDrivetrain(UvuvMotorGroup* leftSidePtr, UvuvMotorGroup* rightSidePtr, Gearing gearingArg, float wheelSizeArg,
+		UvuvBasicController* controllerArg);
 
 	/**
 	 * @brief Construct a new Uvuv Drivetrain object
 	 * 
-	 * @param motorParameters The port number and then the rotation direction of the motor
+	 * @param motorLeftParameters The port number and then the rotation direction of the left motors
+	 * @param motorRightParameters The port number and then the rotation direction of the right motors
+	 * @param gearingArg The gearing of the drivetrain
+	 * @param wheelSizeArg The size of the wheels IN INCHES 
+	 * @param controllerPtr Pointer to your UvuvController 
 	 */
-	UvuvDrivetrain(std::vector<std::pair<int, motorRotation>> motorParameters);
 
-	/*------------------------------------------------------------*/
-
-	int driveTrainPercentage();
+	UvuvDrivetrain(std::vector<std::pair<int, motorRotation>> motorLeftParameters, 
+		std::vector<std::pair<int, motorRotation>> motorRightParameters, Gearing gearingArg, float wheelSizeArg,
+		UvuvBasicController* controllerArg);
 
 	/*------------------------------------------------------------*/
 
@@ -59,7 +82,7 @@ public:
 
 	/*------------------------------------------------------------*/
 
-	void takeControllerInput(pros::Controller Controller1);
+	void takeControllerInput(UvuvBasicController* controllerPtr);
 
 	/*------------------------------------------------------------*/
     
@@ -87,11 +110,11 @@ public:
 
 	/*------------------------------------------------------------*/
 
-	void turnTo(float degrees);
+	void turnTo(pros::IMU inertialSensor, float degrees);
 
 	/*------------------------------------------------------------*/
 
-	void turnAndDriveTo(float inches, float degrees);
+	void turnAndDriveTo(pros::IMU inertialSensor, float inches, float degrees);
 
 	/*------------------------------------------------------------*/
 

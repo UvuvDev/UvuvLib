@@ -1,6 +1,7 @@
 #pragma once
 
-#include "MotorGroup.h"
+#include "Definitions.h"
+#include "Motor.h"
 #include "PID.h"
 
 #include "unordered_map"
@@ -12,14 +13,13 @@ protected:
 	int outputVoltage; // The voltage that the flywheel is outputting, from -12000 to 12000.
 	float wheelDiameter; // The diameter of whatever wheel the flywheels are on, in inches.
 
-	pros::MotorGroup* flyMotors; // The PROS motor/motors used in the flywheel.
-
     UvuvMotorGroup* uvuvMotors; // The Uvuv motor/motors used in the flywheel.
 
 	static PIDController pidController; // The PID Controller that controls the flywheel.
 	
     static std::vector<float> filteredPIDValues; // The filtered values of the flywheel output (RPM).
 
+    Gearing flywheelGearing;
     /**
      * @brief Updates the PID Filter to be the average of the 6 motor values in the past 120 ms.
      * 
@@ -39,24 +39,13 @@ public:
     /**
      * @brief Construct a new Uvuv Flywheel Controller object.
      * 
-     * @param motorArg Pointers to the PROS Motors used in the flywheel. If only one, still use the motor group data type.
-     * @param wheelDiameterArg Diameter of the wheel in the flywheel, in inches.
-     * @param kPArg Proportional constant for the PID loop.
-     * @param kIArg Integral constant for the PID loop.
-     * @param kDArg Derivative constant for the PID loop.
-     */
-	UvuvFlywheelController(pros::MotorGroup* motorArg, float wheelDiameterArg, float kPArg, float kIArg, float kDArg);
-
-    /**
-     * @brief Construct a new Uvuv Flywheel Controller object.
-     * 
      * @param motorArg Pointers to the Uvuv Motors used in the flywheel. If only one, still use the motor group data type.
      * @param wheelDiameterArg Diameter of the wheel in the flywheel, in inches.
      * @param kPArg Proportional constant for the PID loop.
      * @param kIArg Integral constant for the PID loop.
      * @param kDArg Derivative constant for the PID loop.
      */
-    UvuvFlywheelController(UvuvMotorGroup* motorArg, float wheelDiameterArg, float kPArg, float kIArg, float kDArg);
+    UvuvFlywheelController(UvuvMotorGroup* motorArg, Gearing flywheelGearingArg, float wheelDiameterArg, float kPArg, float kIArg, float kDArg);
     
     /**
      * @brief Updates the PID loop for the flywheel. !!! NOT A TASK !!!

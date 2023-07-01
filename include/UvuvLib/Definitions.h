@@ -1,5 +1,7 @@
 #pragma once
 
+#define pi 3.14159265
+
 typedef enum {
 
     G_DIRECT = 600*6,
@@ -9,7 +11,9 @@ typedef enum {
     G_MEDIUM = 200*1,
     G_RED = 100*1,
     G_TORQUE = 100*1,
-    G_257_RPM = 600 * 3/8
+    G_257_RPM = 600 * 3/8,
+    G_343_RPM = 600 * 4/7,
+    G_350_RPM = 200 * 7/4
 
 
 

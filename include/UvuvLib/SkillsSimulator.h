@@ -5,7 +5,7 @@
 #include "LoggerPoller.h"
 #include "ShapesAndCoords.h"
 
-
+std::string testString;
 
 class SkillsSimulation {
 private:
