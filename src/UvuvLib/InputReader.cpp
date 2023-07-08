@@ -6,7 +6,7 @@ int16_t InputReader::readInputsMap[inputSourceNum][inputMapLength];
 int16_t InputReader::readInputsBuffer[inputSourceNum * inputMapLength];
 
 
-InputReader::InputReader(UvuvController* controllerArg) {
+InputReader::InputReader(UvuvBasicController* controllerArg) {
     Uvuv_Controller = controllerArg;
 }
 
@@ -70,7 +70,7 @@ void InputReader::loadInputsFromSD(FILE* fp) { // 8 Inputs 3000 times
     
     for (int i = 0; i < inputMapLength; i++) {
         for (uint8_t f = 0; f < inputSourceNum; f++) {
-            readInputsBuffer[(i * readInputsMapLength) + f] = readInputsMap[i][f];
+            readInputsBuffer[(i * inputMapLength) + f] = readInputsMap[i][f];
         }
     }
 }

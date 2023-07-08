@@ -11,6 +11,8 @@ protected:
 
     pros::Controller* prosController;
 
+    UvuvBasicController();
+
 public:
 
     UvuvBasicController(pros::controller_id_e_t controllerID, pros::Controller* controllerArg = nullptr);
@@ -35,14 +37,14 @@ public:
 
 };
 
-class UvuvAdvancedController : UvuvBasicController {
+class UvuvAdvancedController : public UvuvBasicController {
 private:
 
 protected:
 
     
     std::vector<std::string> modes;
-    std::vector<std::pair<pros::controller_digital_e_t, int*>> buttonsToFunctions; 
+    std::vector<std::pair<pros::controller_digital_e_t, int(*)()>> buttonsToFunctions; 
 
 public: 
 
@@ -50,12 +52,10 @@ public:
 
     ~UvuvAdvancedController();
 
-    std::string getMode();
+    std::vector<std::string> getModes();
 
-    void setMode(std::string modeParam); 
+    void addMode(std::string modeParam); 
     
-    void setFuncToButton();
-
-    void start();
+    void setFuncToButton(int(*functionPtr)(), pros::controller_digital_e_t button);
 
 };

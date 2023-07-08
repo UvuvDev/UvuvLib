@@ -1,6 +1,6 @@
 #pragma once
 #include "main.h"
-#include "Graphy/Grapher.hpp"
+#include "GraphingTool.h"
 
 typedef enum {
 
@@ -16,7 +16,7 @@ protected:
     uint8_t dataLocation = 0;
     const char * filename = "/usd/LOG.txt";
     FILE* writtenFile;
-    graphy::AsyncGrapher* graphingTool;
+    UvuvGraphingTool* graphingTool;
     std::vector<std::string> GraphDataNames;
     
 public:
@@ -30,7 +30,7 @@ public:
      * @param filenameArg Must have /usd/ at the beginning. Otherwise it won't work.
      * @param graphToolArg 
      */
-    Logger(LoggingType type, const char* filenameArg = "/usd/LOG.txt", graphy::AsyncGrapher* graphToolArg = nullptr);
+    Logger(LoggingType type, const char* filenameArg = "/usd/LOG.txt", UvuvGraphingTool* graphToolArg = nullptr);
 
     template<class LogDataType>
     void LogSDCard(std::vector<LogDataType> dataVector);

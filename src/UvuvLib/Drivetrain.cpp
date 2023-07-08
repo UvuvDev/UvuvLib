@@ -31,6 +31,7 @@ UvuvDrivetrain::UvuvDrivetrain(UvuvMotorGroup* leftSidePtr, UvuvMotorGroup* righ
 
 	
 }
+
 UvuvDrivetrain::UvuvDrivetrain(std::vector<std::pair<int, motorRotation>> motorLeftParameters, 
 	std::vector<std::pair<int, motorRotation>> motorRightParameters, Gearing gearingArg, float wheelSizeArg,
 		UvuvBasicController* controllerArg) {

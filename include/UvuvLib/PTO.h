@@ -33,7 +33,7 @@ public:
      * @brief Disengages the PTO on the selected port.
      * 
      */
-    void disengagePTO(int smartPort, char ADIport = 0);
+    void disengagePTO();
 
     /**
      * @brief Toggles the PTO on the selected port.

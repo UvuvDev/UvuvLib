@@ -5,7 +5,7 @@
 #include "PID.h"
 
 class UvuvMotorParent {
-private:
+protected:
 
     static constexpr int overheatTempCelsius = 55;
 
@@ -33,8 +33,6 @@ public:
  
     virtual void spinAtRPM(int RPM) = 0;
  
-    virtual void spinDistance(float distanceInches) = 0;
- 
     virtual void spinUntilDegree(int degree, int speedInVoltage) = 0;
  
     virtual void spinFor(float seconds, int speedInVoltage) = 0;
@@ -57,6 +55,8 @@ private:
     pros::Motor* motor;
     UvuvMotor* pairMotor;
 
+    PIDController* pid;
+
     static constexpr int overheatTempCelsius = 55;
 
     bool isBroken = false;
@@ -65,13 +65,48 @@ private:
 
     int voltage = 0;
 
-    float gearRatio = 0;
+    Gearing gearRatio;
 
     pros::motor_gearset_e gearset = pros::E_MOTOR_GEAR_GREEN;
 
 public:
 
-    UvuvMotor(uint8_t port, bool isReversedArg, UvuvMotor* pairMotorArg = nullptr, float gearRatio = 1, pros::motor_gearset_e gearset = pros::E_MOTOR_GEAR_GREEN, bool pid = false);
+    /**
+     * @brief Construct a new Uvuv Motor object
+     * 
+     * @param port V5 Smart Port number
+     * @param isReversedArg Defines direction of the motor spinning. True is reversed, false is normal.
+     * @param gearRatioArg Gear ratio of the motors mechanism. Accessed by "G_"
+     * @param gearset The PROS motor gearset. 
+     * @param pairMotorArg The motor paired with this motor. For example, leftFront and rightFront motors.
+     * @param pid Built-in PID Controller for the motor.
+     */
+    UvuvMotor(uint8_t port, bool isReversedArg, Gearing gearRatioArg, pros::motor_gearset_e gearset = pros::E_MOTOR_GEAR_GREEN, 
+        UvuvMotor* pairMotorArg = nullptr, PIDController* pidArg = nullptr);
+
+    void spinAtVoltage(int voltage) override;
+ 
+    void spinPerc(int percent) override;
+ 
+    void spinJoystick(int joystickValue) override;
+ 
+    void spinPercVEXPID(int percent) override;
+ 
+    void spinAtRPM(int RPM) override;
+ 
+    void spinUntilDegree(int degree, int speedInVoltage) override;
+ 
+    void spinFor(float seconds, int speedInVoltage) override;
+ 
+    void logMotorPerformance() override; // Stuff like wattage and temperature, RPM, etc, along with Port Number
+
+    void set_zero_position(int position) override;
+ 
+    void shutDown() override;
+ 
+    void revive() override;
+
+    bool isOverheated() override;
 
     bool getIsBroken();
 
@@ -99,6 +134,30 @@ public:
 
     UvuvMotorGroup(std::vector<std::pair<int, motorRotation>> motorParameters);
 
+    void spinAtVoltage(int voltage) override;
+ 
+    void spinPerc(int percent) override;
+ 
+    void spinJoystick(int joystickValue) override;
+ 
+    void spinPercVEXPID(int percent) override;
+ 
+    void spinAtRPM(int RPM) override;
+ 
+    void spinUntilDegree(int degree, int speedInVoltage) override;
+ 
+    void spinFor(float seconds, int speedInVoltage) override;
+ 
+    void logMotorPerformance() override; // Stuff like wattage and temperature, RPM, etc, along with Port Number
+
+    void set_zero_position(int position) override;
+ 
+    void shutDown() override;
+ 
+    void revive() override;
+
+    bool isOverheated() override;
+
     std::vector<bool> getIsBroken();
 
     std::vector<float> getIndividualRPM();
@@ -107,9 +166,9 @@ public:
 
     float getVoltage();
 
-    PIDController getDrivePID();
+    PIDController* getDrivePID();
 
-    PIDController getTurnPID();
+    PIDController* getTurnPID();
 
     bool assignDrivePID(PIDController pid);
 

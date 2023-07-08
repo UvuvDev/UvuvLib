@@ -4,16 +4,16 @@
 
 typedef enum {
 
-    G_DIRECT = 600*6,
-    G_BLUE = 600*1,
-    G_SPEED = 600*1,
-    G_GREEN = 200*1,
-    G_MEDIUM = 200*1,
-    G_RED = 100*1,
-    G_TORQUE = 100*1,
-    G_257_RPM = 600 * 3/8,
-    G_343_RPM = 600 * 4/7,
-    G_350_RPM = 200 * 7/4
+    G_DIRECT = 6,
+    G_BLUE = 1,
+    G_SPEED = 1,
+    G_GREEN = 1,
+    G_MEDIUM = 1,
+    G_RED = 1,
+    G_TORQUE = 1,
+    G_257_RPM = 3/8,
+    G_343_RPM = 4/7,
+    G_350_RPM = 7/4
 
 
 

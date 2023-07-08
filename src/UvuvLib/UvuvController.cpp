@@ -1,6 +1,6 @@
 #include "UvuvLib/UvuvController.h"
 
-UvuvBasicController::UvuvBasicController(pros::controller_id_e_t controllerID, pros::Controller* controllerArg = nullptr) {
+UvuvBasicController::UvuvBasicController(pros::controller_id_e_t controllerID, pros::Controller* controllerArg) {
     if (controllerArg == nullptr) {
         prosController = new pros::Controller(controllerID);
     } else {
@@ -42,11 +42,13 @@ bool UvuvBasicController::newButtonPress(pros::controller_digital_e_t button) {
 
 bool UvuvBasicController::toggleButton(pros::controller_digital_e_t button) {
 
-    if newButtonPress(button) {
+    static int toggleState = 0;
+
+    if (newButtonPress(button)) {
         toggleState++;
     }
     
-    if toggleState % 2 == 0 {
+    if (toggleState % 2 == 0) {
         return true;
     }
 
@@ -72,3 +74,64 @@ bool UvuvBasicController::getJoystick(pros::controller_analog_e_t whichJoystick)
 pros::Controller* UvuvBasicController::getController() {
     return prosController;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+UvuvAdvancedController::UvuvAdvancedController(pros::controller_id_e_t controllerID, std::vector<std::string> modesParam,
+    pros::Controller* controllerArg) {
+
+        if (controllerArg == nullptr) {
+            prosController = new pros::Controller(controllerID);
+        } else {
+            prosController = controllerArg;
+        }
+
+        modes = modesParam;
+
+        for (int i = 0; i < modesParam.size(); i++) {
+            addMode(modesParam[i]);
+        }
+    
+    
+    }
+
+
+
+UvuvAdvancedController::~UvuvAdvancedController() {
+    delete prosController;
+}
+
+
+std::vector<std::string> UvuvAdvancedController::getModes() {
+    return modes;
+}
+
+
+void UvuvAdvancedController::addMode(std::string modeParam) {
+    modes.push_back(modeParam);
+}
+
+
+
+void UvuvAdvancedController::setFuncToButton(int(*functionPtr)(), pros::controller_digital_e_t button) {
+
+    std::pair<pros::controller_digital_e_t, int(*)()> buttonFuncPair(button, functionPtr);
+
+    buttonsToFunctions.push_back(buttonFuncPair);
+
+}
+
