@@ -27,7 +27,7 @@ EXCLUDE_COLD_LIBRARIES:=
 IS_LIBRARY:=1
 # TODO: CHANGE THIS!
 LIBNAME:=uvuvlib
-VERSION:=0.0.0
+VERSION:=0.00
 # EXCLUDE_SRC_FROM_LIB= $(SRCDIR)/unpublishedfile.c
 # this line excludes opcontrol.c and similar files
 EXCLUDE_SRC_FROM_LIB+=$(foreach file, $(SRCDIR)/main,$(foreach cext,$(CEXTS),$(file).$(cext)) $(foreach cxxext,$(CXXEXTS),$(file).$(cxxext)))

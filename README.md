@@ -50,5 +50,7 @@ Beta Testers:
 
 Aidan - 70761S
 
-Can't wait to get this thing working.
+Can't wait to get this thing working. To install the library, put the uvuvlib zip file into your project directory and run this in the terminal:
+
+# # pros conduct fetch uvuvLib@[version number but no brackets].zip
 
