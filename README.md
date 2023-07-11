@@ -50,7 +50,16 @@ Beta Testers:
 
 Aidan - 70761S
 
-Can't wait to get this thing working. To install the library, put the uvuvlib zip file into your project directory and run this in the terminal:
+Can't wait to get this thing working. 
 
-# # pros conduct fetch uvuvLib@[version number but no brackets].zip
+## Installation
 
+To install the library, put the uvuvlib zip file into your project directory and run this in the terminal:
+
+**pros conduct fetch uvuvLib@[version].zip**
+
+For any questions about installation, read this website below first and if that doesn't help, join our Discord server.
+
+https://pros.cs.purdue.edu/v5/cli/conductor.html?highlight=template
+
+https://discord.gg/E6HsRSQd
