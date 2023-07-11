@@ -14,19 +14,19 @@ This description is updated for Version 0.00, the first Beta release of UvuvLib.
 
 Current functionality of UvuvLib is the following:
 
-Custom Motors/Motorgroups
-A Pre-Built Drivetrain class
-An Input Reader to track your controller inputs and save them to an SD Card
-A Pre-Built lift class
-A Pre-Built Flywheel class
-PID
-Lightweight Field class for easier tracking of Auton progress 
-Custom Controller Software
-Extra Math Functions
-Logger class for logging variables, and a Poller for reading from the SD Card
-Auton Maker found here: https://github.com/7121B/AutonMakerV2
-Graphing using Graphy as a core
-Machine Learning capabilities using Fido 
+1. Custom Motors/Motorgroups
+2. A Pre-Built Drivetrain class
+3. An Input Reader to track your controller inputs and save them to an SD Card
+4. A Pre-Built lift class
+5. A Pre-Built Flywheel class
+6. PID
+7. Lightweight Field class for easier tracking of Auton progress 
+8. Custom Controller Software
+9. Extra Math Functions
+10. Logger class for logging variables, and a Poller for reading from the SD Card
+11. Auton Maker found here: https://github.com/7121B/AutonMakerV2
+12. Graphing using Graphy as a core
+13. Machine Learning capabilities using Fido 
 
 Many of these will have bugs as I haven't been able to test most of the code on an actual bot.
 
