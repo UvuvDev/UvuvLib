@@ -19,9 +19,11 @@ protected:
 
     pros::motor_gearset_e gearset = pros::E_MOTOR_GEAR_GREEN;
 
-public:
-
     UvuvMotorParent();
+
+    virtual ~UvuvMotorParent();
+
+public:
 
     virtual void spinAtVoltage(int voltage) = 0;
  
@@ -45,7 +47,7 @@ public:
  
     virtual void revive() = 0;
     
-    virtual bool isOverheated();
+    virtual bool isOverheated() = 0;
     
 };
 

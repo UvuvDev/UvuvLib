@@ -33,7 +33,7 @@ void UvuvFlywheelController::setConstants(float kPArg, float kIArg, float kDArg)
 }
 void UvuvFlywheelController::step() {
 	//std::cout << "kVvalues: " << kVvalues[targetRPM].kV << "\n";
-	if (getRPM(uvuvMotors, flywheelGearing) < targetRPM - 650 && runBangBang) {
+	if (uvuvMotors->getAverageRPM() < targetRPM - 650 && runBangBang) {
 		
 		uvuvMotors->spinAtVoltage(10500);
 		updateFilter();
@@ -69,10 +69,11 @@ void UvuvFlywheelController::startFlywheelControlTask() {
 		GraphTool.addDataType("Actual Filtered", COLOR_GOLD);
 	
 		GraphTool.startTask();
+		
 		while (1) {
 			
 			GraphTool.update("Actual", 
-				static_cast<float>(getRPM(uvuvMotors, flywheelGearing))
+				static_cast<float>(uvuvMotors->getAverageRPM())
 				/ (3600.f));
 			GraphTool.update("Actual Filtered", getFilteredPIDOutput() / 3600.f);
 	
@@ -95,7 +96,9 @@ void UvuvFlywheelController::startFlywheelControlTask() {
 	
 }
 void UvuvFlywheelController::updateFilter() {
-	std::shift_left(begin(filteredPIDValues), end(filteredPIDValues), 1);
+
+	std::rotate(begin(filteredPIDValues), end(filteredPIDValues) - 1, end(filteredPIDValues));
+	//std::shift_left(begin(filteredPIDValues), end(filteredPIDValues), 1);
 	filteredPIDValues.resize(filteredPIDValues.size() - 1);
 	filteredPIDValues.emplace_back(uvuvMotors->getAverageRPM());
 

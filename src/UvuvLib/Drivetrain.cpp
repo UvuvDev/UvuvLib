@@ -128,8 +128,8 @@ void UvuvDrivetrain::driveTo(float inches) {
 		
 		std::cout << "Inches driven: " << inchesDriven << std::endl; // Print inches driven to the terminal
 		
-		int leftVoltage = driveLeftSide->getDrivePID().step(inchesDriven, requestedInches); // PID Step
-		int rightVoltage = driveRightSide->getDrivePID().step(inchesDriven, requestedInches); // PID Step
+		int leftVoltage = driveLeftSide->getDrivePID()->step(inchesDriven, requestedInches); // PID Step
+		int rightVoltage = driveRightSide->getDrivePID()->step(inchesDriven, requestedInches); // PID Step
 
 		// Move drivetrain
 		driveLeftSide->spinAtVoltage(leftVoltage);
@@ -190,8 +190,8 @@ void UvuvDrivetrain::turnTo(pros::IMU inertialSensor, float degrees) {
 
 	while (runPID) { // requestedInches - inchesDriven > .02 
 		
-		int leftVoltage = driveLeftSide->getTurnPID().step(inertialSensor.get_rotation(), degreesAtStart + degrees);
-		int rightVoltage = driveRightSide->getTurnPID().step(inertialSensor.get_rotation(), degreesAtStart + degrees);
+		int leftVoltage = driveLeftSide->getTurnPID()->step(inertialSensor.get_rotation(), degreesAtStart + degrees);
+		int rightVoltage = driveRightSide->getTurnPID()->step(inertialSensor.get_rotation(), degreesAtStart + degrees);
 
 		std::cout << "Yaw: " << inertialSensor.get_rotation() << std::endl;
 		driveLeftSide->spinAtVoltage(leftVoltage);
@@ -243,15 +243,15 @@ void UvuvDrivetrain::turnAndDriveTo(pros::IMU inertialSensor, float inches, floa
 		std::vector<double> turnVector = { driveLeftSide->getAverageRPM(), driveRightSide->getAverageRPM() };
 		degreesTurned += averageNumbers(turnVector) * dtGearing;				
 		
-		int turnVoltage = driveLeftSide->getTurnPID().step(degreesTurned, degrees);
+		int turnVoltage = driveLeftSide->getTurnPID()->step(degreesTurned, degrees);
 		
 		// Drive
 		
 		std::vector<double> driveVector = { driveLeftSide->getAverageRPM(), driveRightSide->getAverageRPM() };
 		inchesDriven += averageNumbers(driveVector) * dtGearing * wheelSize * pi / 1000;
 		
-		int leftVoltage = driveLeftSide->getDrivePID().step(inchesDriven, inches);
-		int rightVoltage = driveRightSide->getDrivePID().step(inchesDriven, inches);
+		int leftVoltage = driveLeftSide->getDrivePID()->step(inchesDriven, inches);
+		int rightVoltage = driveRightSide->getDrivePID()->step(inchesDriven, inches);
 		
 		driveLeftSide->spinAtVoltage(leftVoltage - turnVoltage);
 		driveRightSide->spinAtVoltage(rightVoltage + turnVoltage);

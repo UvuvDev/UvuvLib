@@ -1,5 +1,13 @@
 #include "UvuvLib/Motor.h"
 
+UvuvMotorParent::UvuvMotorParent() {
+
+}
+
+UvuvMotorParent::~UvuvMotorParent() {
+
+}
+
 UvuvMotor::UvuvMotor(uint8_t port, bool isReversedArg, Gearing gearRatioArg, pros::motor_gearset_e gearset, 
     UvuvMotor* pairMotorArg, PIDController* pidArg) {
         motor = new pros::Motor(port, gearset, isReversedArg);

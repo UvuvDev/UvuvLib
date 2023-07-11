@@ -60,4 +60,11 @@ public:
      */
     void insertNewCompletedGraph(std::string newGraphTitle, std::vector<double>* newGraphValues);
 
+    /**
+     * @brief Get the Grapher object
+     * 
+     * @return graphy::AsyncGrapher* 
+     */
+    graphy::AsyncGrapher* getGraphyGraph();
+
 };

@@ -1,4 +1,4 @@
-#include "../include/Fido/FidoNetwork/NeuralNet.h"
+#include "../include/UvuvLib/Fido/FidoNetwork/NeuralNet.h"
 #include <iostream>
 
 #include <assert.h>

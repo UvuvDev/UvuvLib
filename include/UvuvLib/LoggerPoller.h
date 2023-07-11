@@ -18,6 +18,8 @@ protected:
     FILE* writtenFile;
     UvuvGraphingTool* graphingTool;
     std::vector<std::string> GraphDataNames;
+
+    std::string nameOfLog;
     
 public:
 
@@ -30,19 +32,28 @@ public:
      * @param filenameArg Must have /usd/ at the beginning. Otherwise it won't work.
      * @param graphToolArg 
      */
-    Logger(LoggingType type, const char* filenameArg = "/usd/LOG.txt", UvuvGraphingTool* graphToolArg = nullptr);
+    Logger(std::string nameOfLogArg, LoggingType type, const char* filenameArg = "/usd/LOG.txt", UvuvGraphingTool* graphToolArg = nullptr);
+
+    ~Logger();
 
     template<class LogDataType>
-    void LogSDCard(std::vector<LogDataType> dataVector);
+    void LogSDCard(std::vector<LogDataType>* dataVector);
 
     template<class LogDataType>
-    void LogTerminal(std::vector<LogDataType> dataVector);
+    void LogTerminal(std::vector<LogDataType>* dataVector);
 
     template<class LogDataType>
-    void LogGraph(std::vector<LogDataType> dataVector, float maxValue);
+    void LogGraph(std::vector<LogDataType>* dataVector);
 
+    /**
+     * @brief Logs the data to the location specified in the constructor.
+     * 
+     * @tparam LogDataType 
+     * @param dataVector Pointer to the vector of data to be logged.
+     * @param delayTimeMillis How long to wait between logging.
+     */
     template<class LogDataType>
-    void LogLoop(std::vector<LogDataType> dataVector);
+    void LogLoop(std::vector<LogDataType>* dataVector, int delayTimeMillis = 20);
 
 
 
@@ -55,7 +66,7 @@ private:
 
     int bufferLength = 0; // Length of the buffer to read from the file. 
 
-    std::vector<uint32_t> fileContent; // Content of the file. Will have to be parsed through after obtaining. 
+    std::vector<char> fileContent; // Content of the file. Will have to be parsed through after obtaining. 
 
 protected:
 
@@ -69,12 +80,14 @@ public:
      */
     Poller(FILE* filePointerArg, int bufferLengthArg);
 
+    ~Poller();
+
     /**
      * @brief Get the Data from the SD Card.
      * 
-     * @return std::vector<uint32_t> 
+     * @return std::vector<char> 
      */
-    std::vector<uint32_t> getData();
+    std::vector<char> getData();
 
 
 };

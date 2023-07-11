@@ -1,10 +1,10 @@
-#include "Fido/FidoNetwork/Adadelta.h"
+#include "UvuvLib/Fido/FidoNetwork/Adadelta.h"
 
 #include <climits>
 #include <algorithm>
 #include <assert.h>
 
-#include "Fido/FidoNetwork/NeuralNet.h"
+#include "UvuvLib/Fido/FidoNetwork/NeuralNet.h"
 
 using namespace net;
 

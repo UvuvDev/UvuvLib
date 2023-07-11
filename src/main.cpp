@@ -86,13 +86,11 @@ void autonomous() {}
 
 
 void opcontrol() {
-	
-	
-	
 
 	graph.beginGraphing();
 
 	while (1) {
 
 	}
+	
 }

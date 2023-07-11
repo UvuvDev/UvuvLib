@@ -1,4 +1,4 @@
-#include "../include/Fido/FidoNetwork/Backpropagation.h"
+#include "../include/UvuvLib/Fido/FidoNetwork/Backpropagation.h"
 
 #include <chrono>
 #include <thread>
@@ -7,7 +7,7 @@
 #include <string>
 #include <assert.h>
 
-#include "../include/Fido/FidoNetwork/NeuralNet.h"
+#include "../include/UvuvLib/Fido/FidoNetwork/NeuralNet.h"
 
 
 using namespace net;

@@ -1,12 +1,12 @@
-#include "Fido/FidoNetwork/Pruner.h"
+#include "UvuvLib/Fido/FidoNetwork/Pruner.h"
 
 #include <iostream>
 #include <algorithm>
 #include <math.h>
 #include <climits>
 
-#include "Fido/FidoNetwork/NeuralNet.h"
-#include "Fido/FidoNetwork/Backpropagation.h"
+#include "UvuvLib/Fido/FidoNetwork/NeuralNet.h"
+#include "UvuvLib/Fido/FidoNetwork/Backpropagation.h"
 
 using namespace net;
 

@@ -1,4 +1,4 @@
-#include "Fido/FidoNetwork/QLearn.h"
+#include "UvuvLib/Fido/FidoNetwork/QLearn.h"
 
 #include <stdlib.h>
 #include <iostream>
@@ -7,7 +7,7 @@
 #include <thread>
 #include <algorithm>
 
-#include "Fido/FidoNetwork/NeuralNet.h"
+#include "UvuvLib/Fido/FidoNetwork/NeuralNet.h"
 
 using namespace rl;
 

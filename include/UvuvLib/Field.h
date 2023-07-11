@@ -2,6 +2,7 @@
 
 #include "main.h"
 #include "vector"
+#include "Definitions.h"
 
 static constexpr uint8_t allianceRed = 1;
 static constexpr uint8_t allianceBlue = 2;
@@ -11,18 +12,20 @@ private:
 
     std::vector<std::pair<float, float>> gamePieceLocations;
 
-    uint8_t allianceColor = allianceRed;
+    std::pair<float, float> gamePieceMaxDimensions;
 
-    std::pair<float, float> currentLocation;
+    BotDimensions* botDimensions;
+
+    Alliance allianceColor = Alliance::E_ALLIANCE_RED;
     
 public:
 
-    Field(uint8_t alliance);
+    Field(Alliance alliance, BotDimensions* botDimensionsArg);
 
-    void piecePickedUp();
+    void piecePickedUp(std::pair<float, float> currentLocation);
 
-    void piecePutDown();
+    void piecePutDown(std::pair<float, float> currentLocation);
 
-    bool getShouldPieceBeHere();
+    int getShouldPieceBeHere(std::pair<float, float> currentLocation);
 
 };

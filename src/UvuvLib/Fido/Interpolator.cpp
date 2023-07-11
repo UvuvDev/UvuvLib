@@ -1,9 +1,9 @@
-#include "Fido/FidoNetwork/Interpolator.h"
+#include "UvuvLib/Fido/FidoNetwork/Interpolator.h"
 
 #include <assert.h>
 #include <iostream>
 
-#include "Fido/FidoNetwork/LSInterpolator.h"
+#include "UvuvLib/Fido/FidoNetwork/LSInterpolator.h"
 
 using namespace rl;
 

@@ -1,4 +1,4 @@
-#include "Fido/FidoNetwork/WireFitQLearn.h"
+#include "UvuvLib/Fido/FidoNetwork/WireFitQLearn.h"
 
 #include <assert.h>
 #include <random>
@@ -11,8 +11,8 @@
 #include <random>
 #include <cfloat>
 
-#include "Fido/FidoNetwork/Interpolator.h"
-#include "Fido/FidoNetwork/NeuralNet.h"
+#include "UvuvLib/Fido/FidoNetwork/Interpolator.h"
+#include "UvuvLib/Fido/FidoNetwork/NeuralNet.h"
 
 using namespace rl;
 

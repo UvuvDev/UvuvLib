@@ -1,4 +1,4 @@
-#include "Fido/FidoNetwork/SGDTrainer.h"
+#include "UvuvLib/Fido/FidoNetwork/SGDTrainer.h"
 
 #include <assert.h>
 #include <chrono>
@@ -7,7 +7,7 @@
 #include <fstream>
 #include <string>
 
-#include "Fido/FidoNetwork/NeuralNet.h"
+#include "UvuvLib/Fido/FidoNetwork/NeuralNet.h"
 
 using namespace net;
 

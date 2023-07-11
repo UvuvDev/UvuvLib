@@ -39,7 +39,7 @@ public:
      * @brief Toggles the PTO on the selected port.
      * 
      */
-    void togglePTO(int smartPort, char ADIport = 0);
+    void togglePTO();
 
     
 

@@ -1,13 +1,13 @@
-#include "Fido/FidoNetwork/FidoControlSystem.h"
+#include "UvuvLib/Fido/FidoNetwork/FidoControlSystem.h"
 
 #include <float.h>
 #include <algorithm>
 
-#include "Fido/FidoNetwork/NeuralNet.h"
-#include "Fido/FidoNetwork/Backpropagation.h"
-#include "Fido/FidoNetwork/Adadelta.h"
-#include "Fido/FidoNetwork/Pruner.h"
-#include "Fido/FidoNetwork/LSInterpolator.h"
+#include "UvuvLib/Fido/FidoNetwork/NeuralNet.h"
+#include "UvuvLib/Fido/FidoNetwork/Backpropagation.h"
+#include "UvuvLib/Fido/FidoNetwork/Adadelta.h"
+#include "UvuvLib/Fido/FidoNetwork/Pruner.h"
+#include "UvuvLib/Fido/FidoNetwork/LSInterpolator.h"
 
 using namespace rl;
 

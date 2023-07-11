@@ -63,11 +63,11 @@ UvuvAdvancedLift::UvuvAdvancedLift(UvuvMotorGroup* liftMotorsArg, PIDFFControlle
 }
 
 UvuvAdvancedLift::UvuvAdvancedLift(std::vector<std::pair<int, motorRotation>> motorParameters, 
-    PIDFFController* pidControllerArg, float minimumHeightArg, float maximumHeightArg) {
+        PIDFFController* pidFFControllerArg, float defaultInchesFromGround, float minimumHeightArg, float maximumHeightArg) {
 
     liftMotors = new UvuvMotorGroup(motorParameters);
 
-    pidController = pidControllerArg;
+    pidController = pidFFControllerArg;
 
     minimumHeight = minimumHeightArg;
 

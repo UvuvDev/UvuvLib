@@ -1,5 +1,9 @@
 #include "UvuvLib/UvuvController.h"
 
+UvuvBasicController::UvuvBasicController() {
+
+}
+
 UvuvBasicController::UvuvBasicController(pros::controller_id_e_t controllerID, pros::Controller* controllerArg) {
     if (controllerArg == nullptr) {
         prosController = new pros::Controller(controllerID);

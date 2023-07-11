@@ -4,7 +4,10 @@
 /*-----------------PIDController-----------------*/
 	
 	/*-------Initialization-------*/
-	
+	PIDController::PIDController() {
+		// Pass
+	}
+
 	PIDController::PIDController (float kPParam, float kIParam, float kDParam, float integral_thresholdParam, float kVParam) {
 			
 		kP = kPParam;

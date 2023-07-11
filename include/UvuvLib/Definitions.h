@@ -27,3 +27,22 @@ typedef enum {
     E_REVERSED_ROTATION = 2
     
 } motorRotation;
+
+typedef enum {
+
+    E_ALLIANCE_RED = 0,
+    E_ALLIANCE_BLUE = 1
+
+} Alliance;
+
+class BotDimensions {
+public:
+
+    float length;
+    float width;
+    float height;
+
+    BotDimensions(float lengthArg, float widthArg, float heightArg): 
+        length(lengthArg), width(widthArg), height(heightArg) {};
+
+};
