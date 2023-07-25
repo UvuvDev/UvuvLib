@@ -34,6 +34,8 @@ private:
 
 	Gearing dtGearing;
 
+	ControlScheme controlScheme;
+
 	float wheelSize;
 
     bool hasJerkControl = false;
@@ -58,9 +60,10 @@ public:
 	 * @param gearingArg The gearing of the drivetrain
 	 * @param wheelSizeArg The size of the wheels IN INCHES
 	 * @param controllerPtr Pointer to your UvuvController
+	 * @param controlSchemeArg The control scheme of the drivetrain. Accessed via ControlScheme::"Scheme Name"
 	 */
 	UvuvDrivetrain(UvuvMotorGroup* leftSidePtr, UvuvMotorGroup* rightSidePtr, Gearing gearingArg, float wheelSizeArg,
-		UvuvBasicController* controllerArg);
+		UvuvBasicController* controllerArg, ControlScheme controlSchemeArg);
 
 	/**
 	 * @brief Construct a new Uvuv Drivetrain object
@@ -70,11 +73,12 @@ public:
 	 * @param gearingArg The gearing of the drivetrain
 	 * @param wheelSizeArg The size of the wheels IN INCHES 
 	 * @param controllerPtr Pointer to your UvuvController 
+	 * @param controlSchemeArg The control scheme of the drivetrain. Accessed via ControlScheme::"Scheme Name"
 	 */
 
 	UvuvDrivetrain(std::vector<std::pair<int, motorRotation>> motorLeftParameters, 
 		std::vector<std::pair<int, motorRotation>> motorRightParameters, Gearing gearingArg, float wheelSizeArg,
-		UvuvBasicController* controllerArg);
+		UvuvBasicController* controllerArg, ControlScheme controlSchemeArg);
 
 	/*------------------------------------------------------------*/
 

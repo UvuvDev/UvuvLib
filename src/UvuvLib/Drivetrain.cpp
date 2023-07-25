@@ -1,5 +1,6 @@
 
 #include "UvuvLib/Drivetrain.h"
+#include "Definitions.h"
 #include "UvuvController.h"
 #include "UvuvLib/Math.h"
 #include "pros/misc.h"
@@ -15,7 +16,7 @@ float UvuvDrivetrain::degreesTurned;
 
 
 UvuvDrivetrain::UvuvDrivetrain(UvuvMotorGroup* leftSidePtr, UvuvMotorGroup* rightSidePtr, Gearing gearingArg, float wheelSizeArg,
-	UvuvBasicController* controllerArg) {
+	UvuvBasicController* controllerArg, ControlScheme controlSchemeArg) {
 	
 	driveLeftSide = leftSidePtr;
 	driveRightSide = rightSidePtr;		
@@ -29,12 +30,14 @@ UvuvDrivetrain::UvuvDrivetrain(UvuvMotorGroup* leftSidePtr, UvuvMotorGroup* righ
 	filteredLeftVolt.resize(4);
 	filteredRightVolt.resize(4);
 
+	controlScheme = controlSchemeArg;
+
 	
 }
 
 UvuvDrivetrain::UvuvDrivetrain(std::vector<std::pair<int, motorRotation>> motorLeftParameters, 
 	std::vector<std::pair<int, motorRotation>> motorRightParameters, Gearing gearingArg, float wheelSizeArg,
-		UvuvBasicController* controllerArg) {
+		UvuvBasicController* controllerArg, ControlScheme controlSchemeArg) {
 			
     driveLeftSide = new UvuvMotorGroup(motorLeftParameters);    
     driveRightSide = new UvuvMotorGroup(motorRightParameters);
@@ -48,6 +51,8 @@ UvuvDrivetrain::UvuvDrivetrain(std::vector<std::pair<int, motorRotation>> motorL
 	filteredLeftVolt.resize(4);
 	filteredRightVolt.resize(4);
 
+	controlScheme = controlSchemeArg;
+
 
 }
 
@@ -57,9 +62,26 @@ void UvuvDrivetrain::driveStop() {
 
 }
 void UvuvDrivetrain::takeControllerInput(UvuvBasicController* controllerArg) {
-	leftSideVoltage = controllerArg->getJoystick(pros::E_CONTROLLER_ANALOG_LEFT_Y);
+
+	if (controlScheme == ControlScheme::E_ARCADE_DRIVE) {
+		leftSideVoltage = controllerArg->getJoystick(pros::E_CONTROLLER_ANALOG_LEFT_Y) + 
+			controllerArg->getJoystick(pros::E_CONTROLLER_ANALOG_RIGHT_X);
 	
-	rightSideVoltage = controllerArg->getJoystick(pros::E_CONTROLLER_ANALOG_RIGHT_Y);
+		rightSideVoltage = controllerArg->getJoystick(pros::E_CONTROLLER_ANALOG_LEFT_Y) - 
+			controllerArg->getJoystick(pros::E_CONTROLLER_ANALOG_RIGHT_X);
+	}
+	else if (controlScheme == ControlScheme::E_TANK_DRIVE) {
+		leftSideVoltage = controllerArg->getJoystick(pros::E_CONTROLLER_ANALOG_LEFT_Y);
+	
+		rightSideVoltage = controllerArg->getJoystick(pros::E_CONTROLLER_ANALOG_RIGHT_Y);
+	}
+	else {
+		leftSideVoltage = controllerArg->getJoystick(pros::E_CONTROLLER_ANALOG_LEFT_Y);
+	
+		rightSideVoltage = controllerArg->getJoystick(pros::E_CONTROLLER_ANALOG_RIGHT_Y);
+	}
+
+	
 	
 }
 void UvuvDrivetrain::evaluatePercision() {

@@ -1,16 +1,16 @@
 #include "main.h"
+#include "UvuvLib/Definitions.h"
 #include "UvuvLib/Drivetrain.h"
 #include "UvuvLib/GraphingTool.h"
 #include "UvuvLib/PIDTuner.h"
 #include "UvuvLib/UvuvController.h"
 #include "pros/misc.h"
 #include "UvuvLib/UvuvMain.h"
+#include "pros/motors.hpp"
 #include <sys/types.h>
 
 
 //UvuvDrivetrain drivetrain();
-
-UvuvGraphingTool graph("bruh", {0, 100}, 20, false, false);
 
 
 /**
@@ -87,9 +87,28 @@ void autonomous() {}
 
 void opcontrol() {
 
-	graph.beginGraphing();
+	pros::Controller controller1(pros::E_CONTROLLER_MASTER);
+
+	UvuvMotor leftIntake(9, false, G_GREEN);
+	UvuvMotor rightIntake(3, true, G_GREEN);
 
 	while (1) {
+
+		if (controller1.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
+			leftIntake.spinJoystick(127);
+			rightIntake.spinJoystick(127);
+		}
+		else if (controller1.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
+			leftIntake.spinJoystick(-127);
+			rightIntake.spinJoystick(-127);
+		}
+
+		else {
+			leftIntake.spinJoystick(0);
+			rightIntake.spinJoystick(0);
+		}
+
+		pros::delay(20);
 
 	}
 	

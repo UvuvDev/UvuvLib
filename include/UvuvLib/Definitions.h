@@ -35,6 +35,13 @@ typedef enum {
 
 } Alliance;
 
+typedef enum {
+    
+    E_ARCADE_DRIVE = 0,
+    E_TANK_DRIVE = 1,
+    
+} ControlScheme;
+
 class BotDimensions {
 public:
 
