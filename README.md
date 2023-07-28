@@ -10,7 +10,7 @@ https://github.com/jazonshou/Graphy
 
 https://github.com/FidoProject/Fido
 
-This description is updated for Version 0.00, the first Beta release of UvuvLib.
+This description is updated for Version 0.01, the second beta release of UvuvLib, now with Pure Pursuit!.
 
 Current functionality of UvuvLib is the following:
 
@@ -27,18 +27,18 @@ Current functionality of UvuvLib is the following:
 11. Auton Maker found here: https://github.com/7121B/AutonMakerV2
 12. Graphing using Graphy as a core
 13. Machine Learning capabilities using Fido 
+14. (IN ALPHA) Pure Pursuit
 
 Many of these will have bugs as I haven't been able to test most of the code on an actual bot.
 
 Current timeline is as follows:
 
-1. Pure Pursuit 
-2. Skills Simulator, to be able to practice your driving skills runs
-3. Vision Sensor simulation application using Jupyter Notebook and OpenCV, letting you test code while seeing what's happening
-4. Filters, including a Kalman Filter
-5. The UvuvCompass, which will use Kalman Filtering for the most accurate position tracking possible
-6. A full on PID Tuner that will tune PIDs for you
-7. Improving the Graphing Tool functionality and taking it to the limit
+1. Skills Simulator, to be able to practice your driving skills runs
+2. Vision Sensor simulation application using Jupyter Notebook and OpenCV, letting you test code while seeing what's happening
+3. Filters, including a Kalman Filter
+4. The UvuvCompass, which will use Kalman Filtering for the most accurate position tracking possible
+5. A full on PID Tuner that will tune PIDs for you
+6. Improving the Graphing Tool functionality and taking it to the limit
 
 I may throw in LED control and some other things at some point, but I don't really know how far UvuvLib will go. The 7 listed are the current goals for code, and hopefully I can do it with help from the community as well.
 
