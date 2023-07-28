@@ -1,7 +1,5 @@
 #pragma once
 
-
-
 struct PIDConstants {
 
 	float kP, kI, kD, kV;

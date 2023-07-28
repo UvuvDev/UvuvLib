@@ -1,5 +1,34 @@
 #pragma once
 
+#include "Drivetrain.h"
+#include "PID.h"
+#include "Motor.h"
+#include "Definitions.h"
+#include "Math.h"
+
+#define INVALID_POINT 852738
+
+class PurePursuit {
+private:
+
+	UvuvDrivetrain* drivetrain;
+
+	float maxVelocityInchesPerSecond;
+
+	float lookaheadDistance;
+
+	int lastPointPassed;
+
+	std::vector<std::pair<float, float>> path;
+
+	std::pair<float, float> goalPointCoords(std::pair<float, float> currentPos, std::vector<std::pair<float, float>> fullPath);
+
+public:
+
+	void step(std::pair<float, float> currentPos, float headingInDegrees);
+
+};
+
 /*
 
 
@@ -114,7 +143,7 @@ func goalPointCoords (currentPos, fullPath, lookAheadDistance, lastPointPassed):
 				var inter1Distance2Pt = pointDistanceForm(inter1, [pathpoint2_x, pathpoint2_y])
 				var inter2Distance2Pt = pointDistanceForm(inter2, [pathpoint2_x, pathpoint2_y])
 			
-				if (inter1Distance2Pt > inter2Distance2Pt): 
+				if (inter1Distance2Pt < inter2Distance2Pt): 
 					# Reverse offsetting before returning
 					goalPoint = [interX1 + botX, interY1 + botY]
 					print("POINT FOUND: ", goalPoint)

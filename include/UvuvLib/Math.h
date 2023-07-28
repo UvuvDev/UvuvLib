@@ -116,3 +116,5 @@ int getRPM(UvuvMotorGroup* motor, Gearing gearing);
 
 /*------------------------------------------------------------*/
 
+float pointDistanceForm(std::pair<float, float> point1, std::pair<float, float> point2);
+

@@ -127,3 +127,8 @@ int getRPM(pros::MotorGroup* motor, Gearing gearing) {
 
 /*------------------------------------------------------------*/
 
+float pointDistanceForm(std::pair<float, float> point1, std::pair<float, float> point2) {
+	return sqrt(pow(point2.first - point1.first, 2) + pow(point2.second - point1.second, 2));
+}
+
+/*------------------------------------------------------------*/
