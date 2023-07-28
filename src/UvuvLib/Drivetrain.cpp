@@ -16,7 +16,7 @@ float UvuvDrivetrain::degreesTurned;
 
 
 UvuvDrivetrain::UvuvDrivetrain(UvuvMotorGroup* leftSidePtr, UvuvMotorGroup* rightSidePtr, Gearing gearingArg, float wheelSizeArg,
-	UvuvBasicController* controllerArg, ControlScheme controlSchemeArg) {
+	UvuvBasicController* controllerArg, pros::IMU* inertialSensorArg, ControlScheme controlSchemeArg) {
 	
 	driveLeftSide = leftSidePtr;
 	driveRightSide = rightSidePtr;		
@@ -24,6 +24,8 @@ UvuvDrivetrain::UvuvDrivetrain(UvuvMotorGroup* leftSidePtr, UvuvMotorGroup* righ
 	dtGearing = gearingArg;
 	wheelSize = wheelSizeArg;
 	uvuvControllerPtr = controllerArg;
+
+	inertialSensor = inertialSensorArg;
 	
 	inchesDriven = 0;
 
@@ -37,7 +39,7 @@ UvuvDrivetrain::UvuvDrivetrain(UvuvMotorGroup* leftSidePtr, UvuvMotorGroup* righ
 
 UvuvDrivetrain::UvuvDrivetrain(std::vector<std::pair<int, motorRotation>> motorLeftParameters, 
 	std::vector<std::pair<int, motorRotation>> motorRightParameters, Gearing gearingArg, float wheelSizeArg,
-		UvuvBasicController* controllerArg, ControlScheme controlSchemeArg) {
+		UvuvBasicController* controllerArg, pros::IMU* inertialSensorArg, ControlScheme controlSchemeArg) {
 			
     driveLeftSide = new UvuvMotorGroup(motorLeftParameters);    
     driveRightSide = new UvuvMotorGroup(motorRightParameters);
@@ -47,6 +49,8 @@ UvuvDrivetrain::UvuvDrivetrain(std::vector<std::pair<int, motorRotation>> motorL
 	uvuvControllerPtr = controllerArg;
 
 	inchesDriven = 0;
+
+	inertialSensor = inertialSensorArg;
 
 	filteredLeftVolt.resize(4);
 	filteredRightVolt.resize(4);
@@ -191,7 +195,7 @@ void UvuvDrivetrain::driveTo(float inches) {
 	
 
 	
-void UvuvDrivetrain::turnTo(pros::IMU inertialSensor, float degrees) {
+void UvuvDrivetrain::turnTo(float degrees) {
 	
 	graphy::AsyncGrapher GraphTool("Drivetrain Oscillation");
 
@@ -204,7 +208,7 @@ void UvuvDrivetrain::turnTo(pros::IMU inertialSensor, float degrees) {
 
 	uint32_t driveTick = 0;
 	driveTick = 0;
-	int degreesAtStart = inertialSensor.get_rotation();
+	int degreesAtStart = inertialSensor->get_rotation();
 	int millisSinceStart = pros::millis();
 	int timeSinceErrorZero = 0;
 	bool startTimer = false;
@@ -212,16 +216,16 @@ void UvuvDrivetrain::turnTo(pros::IMU inertialSensor, float degrees) {
 
 	while (runPID) { // requestedInches - inchesDriven > .02 
 		
-		int leftVoltage = driveLeftSide->getTurnPID()->step(inertialSensor.get_rotation(), degreesAtStart + degrees);
-		int rightVoltage = driveRightSide->getTurnPID()->step(inertialSensor.get_rotation(), degreesAtStart + degrees);
+		int leftVoltage = driveLeftSide->getTurnPID()->step(inertialSensor->get_rotation(), degreesAtStart + degrees);
+		int rightVoltage = driveRightSide->getTurnPID()->step(inertialSensor->get_rotation(), degreesAtStart + degrees);
 
-		std::cout << "Yaw: " << inertialSensor.get_rotation() << std::endl;
+		std::cout << "Yaw: " << inertialSensor->get_rotation() << std::endl;
 		driveLeftSide->spinAtVoltage(leftVoltage);
 		driveRightSide->spinAtVoltage(-rightVoltage);
 		GraphTool.update("Target", 
 			static_cast<float>( degrees / (degrees*2) ));
 		GraphTool.update("Actual", 
-			static_cast<float>( inertialSensor.get_rotation() - degreesAtStart / (degrees*2)));
+			static_cast<float>( inertialSensor->get_rotation() - degreesAtStart / (degrees*2)));
 		GraphTool.update("Voltage", 
 			static_cast<float>( (float)leftVoltage / 12000 ));
 		driveTick++;
@@ -233,7 +237,7 @@ void UvuvDrivetrain::turnTo(pros::IMU inertialSensor, float degrees) {
 		if (timeSinceErrorZero == 0 && startTimer) {
 			timeSinceErrorZero = pros::millis();
 		}
-		if ((inertialSensor.get_rotation() < degreesAtStart + degrees + .6 && inertialSensor.get_rotation() > 
+		if ((inertialSensor->get_rotation() < degreesAtStart + degrees + .6 && inertialSensor->get_rotation() > 
 				degreesAtStart + degrees - .6 && pros::millis() - timeSinceErrorZero > 400.f) || 
 				pros::millis() - millisSinceStart > 3000) {
 			
@@ -251,13 +255,13 @@ void UvuvDrivetrain::turnTo(pros::IMU inertialSensor, float degrees) {
 }
 	
 
-void UvuvDrivetrain::turnAndDriveTo(pros::IMU inertialSensor, float inches, float degrees) {
+void UvuvDrivetrain::turnAndDriveTo( float inches, float degrees) {
 	inchesDriven = 0;
 	degreesTurned = 0;
 	static uint32_t driveTick = 0;
 	driveTick = 0;
 
-	int degreesAtStart = inertialSensor.get_rotation();
+	int degreesAtStart = inertialSensor->get_rotation();
 
 	while (inches - inchesDriven < .1 && inches - inchesDriven > -.1) {
 

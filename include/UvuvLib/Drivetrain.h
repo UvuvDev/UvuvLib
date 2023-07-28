@@ -82,7 +82,7 @@ public:
 
 	UvuvDrivetrain(std::vector<std::pair<int, motorRotation>> motorLeftParameters, 
 		std::vector<std::pair<int, motorRotation>> motorRightParameters, Gearing gearingArg, float wheelSizeArg,
-		UvuvBasicController* controllerArg, pros::IMU* inertialSensor, ControlScheme controlSchemeArg);
+		UvuvBasicController* controllerArg, pros::IMU* inertialSensorArg, ControlScheme controlSchemeArg);
 
 	/*------------------------------------------------------------*/
 
