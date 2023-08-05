@@ -28,19 +28,19 @@ Current functionality of UvuvLib is the following:
 12. Graphing using Graphy as a core
 13. Machine Learning capabilities using Fido 
 14. (IN ALPHA) Pure Pursuit
+15. Vision Sensor simulation application using Jupyter Notebook and OpenCV, letting you test code while seeing what's happening
 
 Many of these will have bugs as I haven't been able to test most of the code on an actual bot.
 
 Current timeline is as follows:
 
 1. Skills Simulator, to be able to practice your driving skills runs
-2. Vision Sensor simulation application using Jupyter Notebook and OpenCV, letting you test code while seeing what's happening
-3. Filters, including a Kalman Filter
-4. The UvuvCompass, which will use Kalman Filtering for the most accurate position tracking possible
-5. A full on PID Tuner that will tune PIDs for you
-6. Improving the Graphing Tool functionality and taking it to the limit
+2. Filters, including a Kalman Filter
+3. The UvuvCompass, which will use Kalman Filtering for the most accurate position tracking possible
+4. A full on PID Tuner that will tune PIDs for you
+5. Improving the Graphing Tool functionality and taking it to the limit
 
-I may throw in LED control and some other things at some point, but I don't really know how far UvuvLib will go. The 7 listed are the current goals for code, and hopefully I can do it with help from the community as well.
+I may throw in LED control and some other things at some point, but I don't really know how far UvuvLib will go. The 5 listed are the current goals for code, and hopefully I can do it with help from the community as well.
 
 Contributors:
 
@@ -50,7 +50,6 @@ Beta Testers:
 
 Aidan - 70761S
 
-Can't wait to get this thing working. 
 
 ## Installation
 
@@ -63,3 +62,9 @@ For any questions about installation, read this website below first and if that 
 https://pros.cs.purdue.edu/v5/cli/conductor.html?highlight=template
 
 https://discord.gg/E6HsRSQd
+
+## VSS / Jupyter Notebook
+
+You're gonna find the Notebook inside the main folder, the .ipynb file. Installing should be really easy, just make sure you have stuff like Python already installed. Once everythings ready, run **jupyter notebook** in your command prompt of choice inside the directory where the Notebooks stored, and it should be really easy from there.
+
+NOTE: This is a you-code thing, the only thing that comes with the app is some example code. It's just an API with a display. 
