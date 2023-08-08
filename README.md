@@ -28,7 +28,7 @@ Current functionality of UvuvLib is the following:
 12. Graphing using Graphy as a core
 13. Machine Learning capabilities using Fido 
 14. (IN ALPHA) Pure Pursuit
-15. Vision Sensor simulation application using Jupyter Notebook and OpenCV, letting you test code while seeing what's happening
+15. Vision Sensor simulation application using Jupyter Notebook and OpenCV, letting you test code while seeing what's happening. 
 
 Many of these will have bugs as I haven't been able to test most of the code on an actual bot.
 
@@ -65,6 +65,6 @@ https://discord.gg/E6HsRSQd
 
 ## VSS / Jupyter Notebook
 
-You're gonna find the Notebook inside the main folder, the .ipynb file. Installing should be really easy, just make sure you have stuff like Python already installed. Once everythings ready, run **jupyter notebook** in your command prompt of choice inside the directory where the Notebooks stored, and it should be really easy from there.
+You're gonna find the Notebook inside the main folder, the .ipynb file. Installing should be really easy, just make sure you have stuff like Python already installed. Once everythings ready, run **jupyter notebook** in your command prompt of choice inside the directory where the Notebooks stored, and it should be really easy from there. There's key controls on the screen, which will let you wipe out signatures, save up to 7 signatures, pause the output, and obviously close the app.
 
 NOTE: This is a you-code thing, the only thing that comes with the app is some example code. It's just an API with a display. 
