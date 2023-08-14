@@ -11,6 +11,13 @@ https://github.com/jazonshou/Graphy
 https://github.com/FidoProject/Fido
 
 This description is updated for Version 0.01, the second beta release of UvuvLib, now with Pure Pursuit!.
+## Documentation
+
+UvuvLib Documentation can be found below. 
+
+https://uvuvlib-documentation.gitbook.io/docs/
+
+## Functionality and Timeline
 
 Current functionality of UvuvLib is the following:
 
