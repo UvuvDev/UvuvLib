@@ -15,7 +15,7 @@ protected:
 
     UvuvMotorGroup* uvuvMotors; // The Uvuv motor/motors used in the flywheel.
 
-	static PIDController pidController; // The PID Controller that controls the flywheel.
+	static PIDFFController pidController; // The PID Controller that controls the flywheel.
 	
     static std::vector<float> filteredPIDValues; // The filtered values of the flywheel output (RPM).
 
@@ -29,10 +29,6 @@ protected:
 public:
 	
 	double targetRPM = 0;
-	float kP;
-	float kI;
-	float kD;
-	float kV;
 	
 	bool runBangBang = true; // Whether or not you want to run the Bang Bang algorithim on the flywheel.
 
@@ -41,11 +37,10 @@ public:
      * 
      * @param motorArg Pointers to the Uvuv Motors used in the flywheel. If only one, still use the motor group data type.
      * @param wheelDiameterArg Diameter of the wheel in the flywheel, in inches.
-     * @param kPArg Proportional constant for the PID loop.
-     * @param kIArg Integral constant for the PID loop.
-     * @param kDArg Derivative constant for the PID loop.
+     * @param pidArg A PID Controller to use in
      */
-    UvuvFlywheelController(UvuvMotorGroup* motorArg, Gearing flywheelGearingArg, float wheelDiameterArg, float kPArg, float kIArg, float kDArg);
+    UvuvFlywheelController(UvuvMotorGroup* motorArg, Gearing flywheelGearingArg, float wheelDiameterArg, 
+        PIDFFController pidFFArg);
     
     /**
      * @brief Updates the PID loop for the flywheel. !!! NOT A TASK !!!
@@ -60,20 +55,14 @@ public:
     void startFlywheelControlTask();
 	
     /**
-     * @brief Sets the constants for the PID loop. In this case, its only setting kV.
-     * 
-     * @param kVArg 
-     */
-    void setConstants(float kVArg); 
-	
-    /**
      * @brief Set the constants for the PID loop. In this case, its setting kP, kI, and kD.
      * 
      * @param kPArg 
      * @param kIArg 
      * @param kDArg 
+     * @param kVArg
      */
-    void setConstants(float kPArg, float kIArg, float kDArg);
+    void setConstants(float kPArg, float kIArg, float kDArg, float kVArg);
 	
     /**
      * @brief Get the Filtered PID output in RPM. Can be used for things like displaying the RPM on the brain.

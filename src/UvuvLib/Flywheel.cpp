@@ -1,17 +1,16 @@
 #include "UvuvLib/Flywheel.h"
+#include "PID.h"
 #include "UvuvLib/Math.h"
 #include "UvuvLib/GraphingTool.h"
 
-PIDController UvuvFlywheelController::pidController(0);
+PIDFFController UvuvFlywheelController::pidController(0);
 
 std::vector<float> UvuvFlywheelController::filteredPIDValues = {0};
 
 UvuvFlywheelController::UvuvFlywheelController(UvuvMotorGroup* motorArg, Gearing flywheelGearingArg, float wheelDiameterArg, 
-	float kPArg, float kIArg, float kDArg) {
+	PIDFFController pidFFArg) {
 	
-	kP = kPArg;
-	kI = kIArg;
-	kD = kDArg;
+	pidController = pidFFArg;
 
 	uvuvMotors = motorArg;
 	flywheelGearing = flywheelGearingArg;
@@ -20,16 +19,11 @@ UvuvFlywheelController::UvuvFlywheelController(UvuvMotorGroup* motorArg, Gearing
 
 }
 
-void UvuvFlywheelController::setConstants(float kVArg) {
-	kV = kVArg;
-}
-void UvuvFlywheelController::setConstants(float kPArg, float kIArg, float kDArg) {
-	kP = kPArg;
-	kI = kIArg;
-	kD = kDArg;
+void UvuvFlywheelController::setConstants(float kPArg, float kIArg, float kDArg, float kVArg) {
 	pidController.kP = kPArg;
 	pidController.kI = kIArg;
 	pidController.kD = kDArg;
+	pidController.kV = kVArg;
 }
 void UvuvFlywheelController::step() {
 	//std::cout << "kVvalues: " << kVvalues[targetRPM].kV << "\n";
@@ -48,11 +42,11 @@ void UvuvFlywheelController::step() {
 		float PIDAverage = averageNumbers(filteredPIDValues);
 
 		int outputVoltage = pidController.step(PIDAverage, targetRPM);
-		if (kV + outputVoltage < 0) {
+		if (pidController.kV + outputVoltage < 0) {
 			outputVoltage = 0;
 		}
 		
-		uvuvMotors->spinAtVoltage(outputVoltage + kV);
+		uvuvMotors->spinAtVoltage(outputVoltage + pidController.kV);
 		
 	
 	}
@@ -108,8 +102,7 @@ float UvuvFlywheelController::getFilteredPIDOutput() {
 }
 void UvuvFlywheelController::stopFlywheel() {
 	uvuvMotors->spinAtVoltage(0);
-	setConstants(0);
-	setConstants(0, 0, 0);
+	setConstants(0, 0, 0, 0);
 	
 }
 bool UvuvFlywheelController::getCanFire() {

@@ -1,7 +1,9 @@
 #include "main.h"
 #include "UvuvLib/Definitions.h"
 #include "UvuvLib/Drivetrain.h"
+#include "UvuvLib/Flywheel.h"
 #include "UvuvLib/GraphingTool.h"
+#include "UvuvLib/Motor.h"
 #include "UvuvLib/PIDTuner.h"
 #include "UvuvLib/UvuvController.h"
 #include "pros/misc.h"
@@ -10,8 +12,27 @@
 #include <sys/types.h>
 
 
-//UvuvDrivetrain drivetrain();
 
+UvuvBasicController* controller = new UvuvBasicController(pros::E_CONTROLLER_MASTER);
+
+pros::IMU* inertialSensor = new pros::IMU(9);
+pros::GPS gpsSensor(11);
+
+UvuvMotor* leftIntake = new UvuvMotor(1, false, G_GREEN);
+UvuvMotor* rightIntake = new UvuvMotor(2, true, G_GREEN);;
+
+
+
+UvuvMotor* leftFront = new UvuvMotor(3, false, G_BLUE);
+UvuvMotor* leftMount = new UvuvMotor(4, false, G_BLUE);
+UvuvMotor* leftBack = new UvuvMotor(5, false, G_BLUE);
+
+UvuvMotor* rightFront = new UvuvMotor(6, true, G_BLUE);
+UvuvMotor* rightMount = new UvuvMotor(7, true, G_BLUE);
+UvuvMotor* rightBack = new UvuvMotor(8, true, G_BLUE);
+
+
+UvuvMotor* flywheelA = new UvuvMotor(0, false, G_BLUE);
 
 /**
  * A callback function for LLEMU's center button.
@@ -36,7 +57,8 @@ void on_center_button() {
  * to keep execution time for this mode under a few seconds.
  */
 void initialize() {
-	// Initialize sylib background processes
+	inertialSensor->reset(true);
+	gpsSensor.initialize_full(0, 0, 0, 0, 0);
 }
 
 /**
@@ -68,7 +90,31 @@ void competition_initialize() {}
  * will be stopped. Re-enabling the robot will restart the task, not re-start it
  * from where it left off.
  */
-void autonomous() {}
+void autonomous() {
+
+	// Drivetrain initialization
+
+	UvuvMotorGroup* driveLeftSide = new UvuvMotorGroup({leftFront, leftMount, leftBack});
+
+	UvuvMotorGroup* driveRightSide = new UvuvMotorGroup({rightFront, rightMount, rightBack});
+
+	UvuvDrivetrain drivetrain(driveLeftSide, driveRightSide, G_343_RPM, 
+		4.125, controller, inertialSensor, ControlScheme::E_ARCADE_DRIVE);
+
+	// Path intialization
+	Path path = {{0,0}, {12,12}, {0, 12}, {5, 7}};
+	PurePursuit purePursuit(path, &drivetrain, 6, 30);
+
+	while (true) {
+		// Position can be with whatever you want. I'm using the raw GPS sensor data.
+		purePursuit.step( { gpsSensor.get_status().x, gpsSensor.get_status().y }, 
+			inertialSensor->get_heading());
+		
+		pros::delay(20);
+	
+	}
+
+}
 
 /**
  * Runs the operator control code. This function will be started in its own task
@@ -87,29 +133,62 @@ void autonomous() {}
 
 void opcontrol() {
 
-	pros::Controller controller1(pros::E_CONTROLLER_MASTER);
+	// Intake
 
-	UvuvMotor leftIntake(9, false, G_GREEN);
-	UvuvMotor rightIntake(3, true, G_GREEN);
+	std::vector<UvuvMotor*> intakeMotors = {leftIntake, rightIntake};
+	
+	UvuvMotorGroup intakeGroup(intakeMotors);
+
+	// Drivetrain initialization
+
+	UvuvMotorGroup* driveLeftSide = new UvuvMotorGroup({leftFront, leftMount, leftBack});
+
+	UvuvMotorGroup* driveRightSide = new UvuvMotorGroup({rightFront, rightMount, rightBack});
+
+	UvuvDrivetrain drivetrain(driveLeftSide, driveRightSide, G_343_RPM, 
+		4.125, controller, inertialSensor, ControlScheme::E_ARCADE_DRIVE);
+
+	// Flywheel
+
+	UvuvMotorGroup* flywheelMotors = new UvuvMotorGroup({flywheelA});
+	UvuvFlywheelController flywheel({flywheelMotors}, G_DIRECT, 4.0, {0,0,0,0});
+
 
 	while (1) {
+		
+		drivetrain.driveTrainMainLoop();
 
-		if (controller1.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
-			leftIntake.spinJoystick(127);
-			rightIntake.spinJoystick(127);
-		}
-		else if (controller1.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
-			leftIntake.spinJoystick(-127);
-			rightIntake.spinJoystick(-127);
-		}
+		flywheel.step();
 
+		if (controller->getButton(pros::E_CONTROLLER_DIGITAL_R1)) {
+			intakeGroup.spinPerc(100);
+		}
+		else if (controller->getButton(pros::E_CONTROLLER_DIGITAL_R2)) {
+			intakeGroup.spinPerc(-100);
+		}
 		else {
-			leftIntake.spinJoystick(0);
-			rightIntake.spinJoystick(0);
+			intakeGroup.spinPerc(0);
 		}
 
 		pros::delay(20);
 
 	}
-	
+
+	delete leftIntake;
+	delete rightIntake;
+
+	delete rightBack;
+	delete rightMount;
+	delete rightFront;
+
+	delete leftBack;
+	delete leftMount;
+	delete leftFront;
+
+	delete flywheelA;
+
+	delete driveRightSide;
+	delete driveLeftSide;
+	delete flywheelMotors;
+
 }

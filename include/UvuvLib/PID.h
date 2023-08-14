@@ -43,14 +43,15 @@ public:
 	
 };
 
-class PIDFFController : PIDController { 	
+class PIDFFController : public PIDController { 	
 protected:
+	
+public:
+
 	float kV;
 	float kG;
 	float kS;
 	float kA;
-
-public:
 
 	/**
 	 * @brief Construct a new PIDFeedForwardController object
