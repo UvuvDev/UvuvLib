@@ -36,13 +36,14 @@ Current functionality of UvuvLib is the following:
 13. Machine Learning capabilities using Fido 
 14. (IN ALPHA) Pure Pursuit
 15. Vision Sensor simulation application using Jupyter Notebook and OpenCV, letting you test code while seeing what's happening. 
+16. 1D Kalman Filter
 
 Many of these will have bugs as I haven't been able to test most of the code on an actual bot.
 
 Current timeline is as follows:
 
 1. Skills Simulator, to be able to practice your driving skills runs
-2. Filters, including a Kalman Filter
+2. Extended Kalman Filter
 3. The UvuvCompass, which will use Kalman Filtering for the most accurate position tracking possible
 4. A full on PID Tuner that will tune PIDs for you
 5. Improving the Graphing Tool functionality and taking it to the limit
