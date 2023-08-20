@@ -1,5 +1,6 @@
 #include "UvuvLib/Filters.h"
 #include "Math.h"
+#include <random>
 
 BasicFilter::BasicFilter(uint16_t amountOfNumbersToAverage) {
     unfilteredValuesVector.resize(amountOfNumbersToAverage);
@@ -77,3 +78,70 @@ std::vector<float> AlphaBetaFilter::step() {
     return tempVector;
 
 }
+
+
+
+
+
+
+
+OneDKalmanFilter::OneDKalmanFilter(std::normal_distribution<float> startingPos, std::normal_distribution<float> processModel, 
+    float processNoise, float sensorNoise) {
+
+	measurements.emplace_back(startingPos);
+    this->processNoise = processNoise;
+    this->sensorNoise = sensorNoise;
+    this->processModel = processModel;
+}
+
+/*float OneDKalmanFilter::update(float measurement) {
+	float kalmanGain = estimatedError / (estimatedError + sensorNoise); // Get the ratio of 
+        // how much we trust the estimate 
+
+	estimatedVelocity = estimatedVelocity + kalmanGain * (measurement - estimatedVelocity); // Update the 
+        // estimate with the error between the measurement and the estimate times the kalman gain
+	
+    estimatedError = (1 - kalmanGain) * estimatedError + 
+        fabs(estimatedVelocity - measurement) * processNoise;
+	
+    return estimatedVelocity;
+}*/
+
+std::normal_distribution<float> OneDKalmanFilter::update(std::normal_distribution<float> measurement) {
+	
+    std::normal_distribution<float> prior = predict(measurements.at(measurements.size() - 1),
+        processModel);
+
+    std::normal_distribution<float> likelihood(measurements.at(measurements.size() - 1).mean(),
+        sensorNoise);
+
+    return gaussianMultiply(prior.mean(), prior.stddev(), 
+        likelihood.mean(), likelihood.stddev());
+
+}
+
+std::normal_distribution<float> OneDKalmanFilter::gaussianMultiply(float mean, float stdDev, float mean2, float stdDev2) {
+
+    std::normal_distribution prior{mean, stdDev};
+    std::normal_distribution likelihood{mean2, stdDev2};    
+    
+    float meanResult = (pow(prior.stddev(),2) * likelihood.mean() + pow(likelihood.stddev(),2) * prior.mean()) / 
+        (pow(prior.stddev(),2) + pow(likelihood.stddev(),2));
+    
+    float varianceResult = (pow(prior.stddev(),2) * pow(likelihood.stddev(),2)) / 
+        (pow(prior.stddev(),2) + pow(likelihood.stddev(),2));
+
+    std::normal_distribution posterior{meanResult, sqrt(varianceResult)};
+    
+    return posterior;
+
+}
+
+std::normal_distribution<float> OneDKalmanFilter::predict(std::normal_distribution<float> lastEstimate,
+    std::normal_distribution<float> processModel ) {
+        
+    return std::normal_distribution<float> {lastEstimate.mean() + processModel.mean(), 
+        static_cast<float>(pow(lastEstimate.stddev(),2)) + 
+        static_cast<float>(pow(processModel.stddev(),2)) };
+}
+

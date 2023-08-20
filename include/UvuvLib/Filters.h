@@ -1,5 +1,6 @@
 
 #include "main.h"
+#include <random>
 
 /**
  * @brief Basic Filter. Simply averages a set of values you input.
@@ -108,10 +109,70 @@ public:
 };
 
 /**
- * @brief Kalman Filter lol
+ * @brief It's a 1D Kalman filter. Best used for 1D systems, not 2D or 3D.
  * 
  */
-class KalmanFilter {
+class OneDKalmanFilter {
+private:
+    
+    std::normal_distribution<float> processModel;
+
+    std::vector<std::normal_distribution<float>> measurements;
+
+    float processNoise = 0;
+    float sensorNoise = 0;
+
+    float estimatedError = 0;
+    float estimatedVelocity = 0;
+
+    float kGain = 0;
+
+    float lastEstimatedError = 0;
+    float lastEstimatedVelocity = 0;
+
+    float lastEstimatedValue = 0;
+
+    float lastSensorValue = 0;
+
+    /**
+     * @brief Just adds two Gaussians together to make a prediction.
+     * 
+     * @param lastEstimate The previous estimate on the system. 
+     * @param processModel The model chosen for the system.
+     * @return std::normal_distribution<float> 
+     */
+    std::normal_distribution<float> predict(std::normal_distribution<float> lastEstimate,
+    std::normal_distribution<float> processModel );
+        
+    /**
+     * @brief Multiply two gaussians together.
+     * 
+     * @param mean    Mean for Gaussian 1
+     * @param stdDev  Standard Deviation for Gaussian 1
+     * @param mean2   Mean for Gaussian 2
+     * @param stdDev2 Standard Deviation for Gaussian 2
+     * @return std::normal_distribution<> 
+     */
+    std::normal_distribution<float> gaussianMultiply(float mean, float stdDev, float mean2, float stdDev2);
+
+
+
+protected:
+
+public:
+
+    OneDKalmanFilter(std::normal_distribution<float> startingPos,  std::normal_distribution<float> processModel,
+        float processNoise, float sensorNoise);
+
+    std::normal_distribution<float> update(std::normal_distribution<float> measurement);
+
+};
+
+/**
+ * @brief 
+ * 
+ */
+class ExtendedKalmanFilter : public OneDKalmanFilter{
 private:
 
 protected:
