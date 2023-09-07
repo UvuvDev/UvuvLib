@@ -108,15 +108,17 @@ OneDKalmanFilter::OneDKalmanFilter(std::normal_distribution<float> startingPos, 
 }*/
 
 std::normal_distribution<float> OneDKalmanFilter::update(std::normal_distribution<float> measurement) {
-	
+	    
     std::normal_distribution<float> prior = predict(measurements.at(measurements.size() - 1),
-        processModel);
+        processModel); // Get prediction
 
     std::normal_distribution<float> likelihood(measurements.at(measurements.size() - 1).mean(),
-        sensorNoise);
+        sensorNoise); // Get the likelihood of that predicition
 
     return gaussianMultiply(prior.mean(), prior.stddev(), 
-        likelihood.mean(), likelihood.stddev());
+        likelihood.mean(), likelihood.stddev()); // Multiply the two gaussians to get 
+        // the posterior distribution, the estimated value
+
 
 }
 

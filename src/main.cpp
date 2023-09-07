@@ -102,14 +102,19 @@ void autonomous() {
 		4.125, controller, inertialSensor, ControlScheme::E_ARCADE_DRIVE);
 
 	// Path intialization
-	Path path = {{0,0}, {12,12}, {0, 12}, {5, 7}};
-	PurePursuit purePursuit(path, &drivetrain, 6, 30);
+	//Path path = {{0,0}, {12,12}, {0, 12}, {5, 7}};
+	//PurePursuit purePursuit(path, &drivetrain, 6, 30);
 
 	while (true) {
-		// Position can be with whatever you want. I'm using the raw GPS sensor data.
-		purePursuit.step( { gpsSensor.get_status().x, gpsSensor.get_status().y }, 
-			inertialSensor->get_heading());
 		
+		// Position can be with whatever you want. I'm using the raw GPS sensor data.
+		//purePursuit.step( { gpsSensor.get_status().x, gpsSensor.get_status().y }, 
+		//	inertialSensor->get_heading());
+		
+		drivetrain.takeControllerInput(controller);
+
+		drivetrain.driveTrainMainLoop();
+
 		pros::delay(20);
 	
 	}
