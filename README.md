@@ -37,6 +37,7 @@ Current functionality of UvuvLib is the following:
 14. (IN ALPHA) Pure Pursuit
 15. Vision Sensor simulation application using Jupyter Notebook and OpenCV, letting you test code while seeing what's happening. 
 16. 1D Kalman Filter
+17. Acorn Tracking (IN VSS, YET TO BE PORTED TO PROS)
 
 Many of these will have bugs as I haven't been able to test most of the code on an actual bot.
 
