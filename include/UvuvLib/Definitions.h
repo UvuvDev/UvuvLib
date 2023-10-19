@@ -39,6 +39,7 @@ typedef enum {
     
     E_ARCADE_DRIVE = 0,
     E_TANK_DRIVE = 1,
+    E_SPLIT_ARCADE_DRIVE = 2
     
 } ControlScheme;
 

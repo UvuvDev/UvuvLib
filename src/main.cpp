@@ -8,31 +8,27 @@
 #include "UvuvLib/UvuvController.h"
 #include "pros/misc.h"
 #include "UvuvLib/UvuvMain.h"
+#include "pros/misc.hpp"
 #include "pros/motors.hpp"
 #include <sys/types.h>
+#include <vector>
 
-
+pros::Controller controllerBase(pros::E_CONTROLLER_MASTER);
 
 UvuvBasicController* controller = new UvuvBasicController(pros::E_CONTROLLER_MASTER);
 
 pros::IMU* inertialSensor = new pros::IMU(9);
 pros::GPS gpsSensor(11);
 
-UvuvMotor* leftIntake = new UvuvMotor(1, false, G_GREEN);
-UvuvMotor* rightIntake = new UvuvMotor(2, true, G_GREEN);;
+UvuvMotor* intakeMotor = new UvuvMotor(15, false, G_GREEN);
 
+UvuvMotor* leftFront = new UvuvMotor(12, true, G_BLUE);
+UvuvMotor* leftMount = new UvuvMotor(3, false, G_BLUE);
+UvuvMotor* leftBack = new UvuvMotor(13, true, G_BLUE);
 
-
-UvuvMotor* leftFront = new UvuvMotor(3, false, G_BLUE);
-UvuvMotor* leftMount = new UvuvMotor(4, false, G_BLUE);
-UvuvMotor* leftBack = new UvuvMotor(5, false, G_BLUE);
-
-UvuvMotor* rightFront = new UvuvMotor(6, true, G_BLUE);
-UvuvMotor* rightMount = new UvuvMotor(7, true, G_BLUE);
-UvuvMotor* rightBack = new UvuvMotor(8, true, G_BLUE);
-
-
-UvuvMotor* flywheelA = new UvuvMotor(0, false, G_BLUE);
+UvuvMotor* rightFront = new UvuvMotor(1, false, G_BLUE);
+UvuvMotor* rightMount = new UvuvMotor(14, true, G_BLUE);
+UvuvMotor* rightBack = new UvuvMotor(4, false, G_BLUE);
 
 /**
  * A callback function for LLEMU's center button.
@@ -57,7 +53,7 @@ void on_center_button() {
  * to keep execution time for this mode under a few seconds.
  */
 void initialize() {
-	inertialSensor->reset(true);
+	inertialSensor->reset(false);
 	gpsSensor.initialize_full(0, 0, 0, 0, 0);
 }
 
@@ -92,33 +88,7 @@ void competition_initialize() {}
  */
 void autonomous() {
 
-	// Drivetrain initialization
-
-	UvuvMotorGroup* driveLeftSide = new UvuvMotorGroup({leftFront, leftMount, leftBack});
-
-	UvuvMotorGroup* driveRightSide = new UvuvMotorGroup({rightFront, rightMount, rightBack});
-
-	UvuvDrivetrain drivetrain(driveLeftSide, driveRightSide, G_343_RPM, 
-		4.125, controller, inertialSensor, ControlScheme::E_ARCADE_DRIVE);
-
-	// Path intialization
-	//Path path = {{0,0}, {12,12}, {0, 12}, {5, 7}};
-	//PurePursuit purePursuit(path, &drivetrain, 6, 30);
-
-	while (true) {
-		
-		// Position can be with whatever you want. I'm using the raw GPS sensor data.
-		//purePursuit.step( { gpsSensor.get_status().x, gpsSensor.get_status().y }, 
-		//	inertialSensor->get_heading());
-		
-		drivetrain.takeControllerInput(controller);
-
-		drivetrain.driveTrainMainLoop();
-
-		pros::delay(20);
 	
-	}
-
 }
 
 /**
@@ -138,49 +108,45 @@ void autonomous() {
 
 void opcontrol() {
 
-	// Intake
-
-	std::vector<UvuvMotor*> intakeMotors = {leftIntake, rightIntake};
-	
-	UvuvMotorGroup intakeGroup(intakeMotors);
-
 	// Drivetrain initialization
 
-	UvuvMotorGroup* driveLeftSide = new UvuvMotorGroup({leftFront, leftMount, leftBack});
+	std::vector<UvuvMotor*> leftMotors = {leftBack, leftMount, leftFront};
+	std::vector<UvuvMotor*> rightMotors = {rightBack, rightMount, rightFront};
 
-	UvuvMotorGroup* driveRightSide = new UvuvMotorGroup({rightFront, rightMount, rightBack});
+	UvuvMotorGroup* driveLeftSide = new UvuvMotorGroup(leftMotors);
+
+	UvuvMotorGroup* driveRightSide = new UvuvMotorGroup(rightMotors);
 
 	UvuvDrivetrain drivetrain(driveLeftSide, driveRightSide, G_343_RPM, 
-		4.125, controller, inertialSensor, ControlScheme::E_ARCADE_DRIVE);
+		4.125, controller, inertialSensor, ControlScheme::E_TANK_DRIVE);
 
-	// Flywheel
+	// Path intialization
+	//Path path = {{0,0}, {12,12}, {0, 12}, {5, 7}};
+	//PurePursuit purePursuit(path, &drivetrain, 6, 30);
 
-	UvuvMotorGroup* flywheelMotors = new UvuvMotorGroup({flywheelA});
-	UvuvFlywheelController flywheel({flywheelMotors}, G_DIRECT, 4.0, {0,0,0,0});
-
-
-	while (1) {
+	while (true) {
 		
-		drivetrain.driveTrainMainLoop();
+		driveLeftSide->spinPerc(controllerBase.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y));
+		driveRightSide->spinPerc(controllerBase.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y));
+		//drivetrain.driveTrainMainLoop();
 
-		flywheel.step();
+		std::cout << "Left: " << controllerBase.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y) << std::endl;
 
-		if (controller->getButton(pros::E_CONTROLLER_DIGITAL_R1)) {
-			intakeGroup.spinPerc(100);
+		if (controller->getButton(pros::E_CONTROLLER_DIGITAL_R2)) {
+			intakeMotor->spinPerc(100);
 		}
-		else if (controller->getButton(pros::E_CONTROLLER_DIGITAL_R2)) {
-			intakeGroup.spinPerc(-100);
+		else if (controller->getButton(pros::E_CONTROLLER_DIGITAL_R1)) {
+			intakeMotor->spinPerc(-100);
 		}
 		else {
-			intakeGroup.spinPerc(0);
+			intakeMotor->spinPerc(0);
 		}
 
 		pros::delay(20);
 
 	}
 
-	delete leftIntake;
-	delete rightIntake;
+	delete intakeMotor;
 
 	delete rightBack;
 	delete rightMount;
@@ -190,10 +156,6 @@ void opcontrol() {
 	delete leftMount;
 	delete leftFront;
 
-	delete flywheelA;
-
 	delete driveRightSide;
 	delete driveLeftSide;
-	delete flywheelMotors;
-
 }

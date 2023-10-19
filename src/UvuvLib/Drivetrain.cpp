@@ -78,12 +78,22 @@ void UvuvDrivetrain::takeControllerInput(UvuvBasicController* controllerArg) {
 		leftSideVoltage = controllerArg->getJoystick(pros::E_CONTROLLER_ANALOG_LEFT_Y);
 	
 		rightSideVoltage = controllerArg->getJoystick(pros::E_CONTROLLER_ANALOG_RIGHT_Y);
+		
+	}
+	else if (controlScheme == ControlScheme::E_SPLIT_ARCADE_DRIVE) {
+		leftSideVoltage = controllerArg->getJoystick(pros::E_CONTROLLER_ANALOG_LEFT_Y) + 
+			controllerArg->getJoystick(pros::E_CONTROLLER_ANALOG_LEFT_X);
+		rightSideVoltage = controllerArg->getJoystick(pros::E_CONTROLLER_ANALOG_LEFT_Y) - 
+			controllerArg->getJoystick(pros::E_CONTROLLER_ANALOG_LEFT_X);
 	}
 	else {
 		leftSideVoltage = controllerArg->getJoystick(pros::E_CONTROLLER_ANALOG_LEFT_Y);
 	
 		rightSideVoltage = controllerArg->getJoystick(pros::E_CONTROLLER_ANALOG_RIGHT_Y);
 	}
+
+	std::cout << "Left side voltage: " << leftSideVoltage << std::endl;
+	std::cout << "Right side voltage: " << rightSideVoltage << std::endl;
 
 	
 	
@@ -105,8 +115,8 @@ void UvuvDrivetrain::evaluateReverse() {
 	
 }
 void UvuvDrivetrain::spinMotors() {
-	driveLeftSide->spinAtVoltage(leftSideVoltage);
-	driveRightSide->spinAtVoltage(rightSideVoltage);
+	driveLeftSide->spinPerc(leftSideVoltage / 127);
+	driveRightSide->spinPerc(rightSideVoltage / 127);
 }
 void UvuvDrivetrain::driveTrainMainLoop() {
 	

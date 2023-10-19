@@ -2,8 +2,20 @@
 
 UvuvMotorGroup::UvuvMotorGroup(std::vector<UvuvMotor*> motorContainerArg) {
 
+    std::cout << motorContainerArg.size() << std::endl;
+    motorContainer = motorContainerArg;
+
+
+
 }
 
+
+UvuvMotorGroup::UvuvMotorGroup(std::vector<UvuvMotor*>* motorContainerArg) {
+    std::cout << motorContainerArg->size() << std::endl;
+    for (int i = 0; i < motorContainerArg->size(); i++) {
+        motorContainer.push_back((*motorContainerArg).at(i));
+    }
+}
 
 UvuvMotorGroup::UvuvMotorGroup(std::vector<std::pair<int, motorRotation>> motorParameters) {
 
@@ -34,16 +46,19 @@ void UvuvMotorGroup::spinAtVoltage(int voltage) {
 
 void UvuvMotorGroup::spinPerc(int percent) {
 
-    static bool isAnyBroken = false;
-    
+    bool isAnyBroken = false;
+    std::cout << "Attempting to spin...     " << motorContainer.size();
+
     for (int i = 0; i < motorContainer.size(); i++) {
         if (motorContainer[i]->getIsBroken()) {
+            std::cout << "BROKE";
             isAnyBroken = true;
         }
     }
 
     if (!isAnyBroken) {
         for (int i = 0; i < motorContainer.size(); i++) {
+            std::cout << "SPUN AT PERCENT" << std::endl;
             motorContainer[i]->spinPerc(percent);
         }
     }

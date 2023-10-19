@@ -134,6 +134,8 @@ public:
 
     UvuvMotorGroup(std::vector<UvuvMotor*> motorContainerArg);
 
+    UvuvMotorGroup(std::vector<UvuvMotor*>* motorContainerArg);
+
     UvuvMotorGroup(std::vector<std::pair<int, motorRotation>> motorParameters);
 
     void spinAtVoltage(int voltage) override;

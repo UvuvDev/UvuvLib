@@ -1,7 +1,7 @@
 #include "UvuvLib/UvuvController.h"
 
 UvuvBasicController::UvuvBasicController() {
-
+    
 }
 
 UvuvBasicController::UvuvBasicController(pros::controller_id_e_t controllerID, pros::Controller* controllerArg) {
@@ -70,8 +70,10 @@ bool UvuvBasicController::getButton(pros::controller_digital_e_t button) {
     return prosController->get_digital(button);
 }
 
-bool UvuvBasicController::getJoystick(pros::controller_analog_e_t whichJoystick) {
-    return prosController->get_analog(whichJoystick);
+int UvuvBasicController::getJoystick(pros::controller_analog_e_t whichJoystick) {
+    int joystickValue = prosController->get_analog(whichJoystick);
+    std::cout << "Joystick " << joystickValue / 127 * 100 << std::endl;
+    return joystickValue;
 }
 
 

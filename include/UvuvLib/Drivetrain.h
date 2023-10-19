@@ -45,7 +45,7 @@ private:
     bool isReversed = false;
 	bool areFrontMotorsShutDown = false;
 	bool areBackMotorsShutDown = false;
-	bool isDriver;
+	bool isDriver = true;
 	bool isPercision = false;
 
 protected:

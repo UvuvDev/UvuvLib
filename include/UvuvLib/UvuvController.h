@@ -31,7 +31,7 @@ public:
 
     bool getButton(pros::controller_digital_e_t button);
 
-    bool getJoystick(pros::controller_analog_e_t whichJoystick);
+    int getJoystick(pros::controller_analog_e_t whichJoystick);
 
     pros::Controller* getController();
 
