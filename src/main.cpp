@@ -118,7 +118,7 @@ void opcontrol() {
 	UvuvMotorGroup* driveRightSide = new UvuvMotorGroup(rightMotors);
 
 	UvuvDrivetrain drivetrain(driveLeftSide, driveRightSide, G_343_RPM, 
-		4.125, controller, inertialSensor, ControlScheme::E_TANK_DRIVE);
+		4, controller, inertialSensor, ControlScheme::E_TANK_DRIVE);
 
 	// Path intialization
 	//Path path = {{0,0}, {12,12}, {0, 12}, {5, 7}};
@@ -130,7 +130,7 @@ void opcontrol() {
 		driveRightSide->spinPerc(controllerBase.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y));
 		//drivetrain.driveTrainMainLoop();
 
-		std::cout << "Left: " << controllerBase.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y) << std::endl;
+		std::cout << "Right: " << controllerBase.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y) << std::endl;
 
 		if (controller->getButton(pros::E_CONTROLLER_DIGITAL_R2)) {
 			intakeMotor->spinPerc(100);

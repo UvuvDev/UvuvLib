@@ -72,10 +72,8 @@ bool UvuvBasicController::getButton(pros::controller_digital_e_t button) {
 
 int UvuvBasicController::getJoystick(pros::controller_analog_e_t whichJoystick) {
     int joystickValue = prosController->get_analog(whichJoystick);
-    std::cout << "Joystick " << joystickValue / 127 * 100 << std::endl;
     return joystickValue;
 }
-
 
 pros::Controller* UvuvBasicController::getController() {
     return prosController;
