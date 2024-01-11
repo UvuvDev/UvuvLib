@@ -10,7 +10,12 @@ https://github.com/jazonshou/Graphy
 
 https://github.com/FidoProject/Fido
 
-This description is updated for Version 0.01, the second beta release of UvuvLib, now with Pure Pursuit!.
+This description is updated for Version 0.3, the third beta release of UvuvLib, now with Pure Pursuit!
+
+## WARNING
+
+This library has since merged with LemLib due to the lack of Beta Testers. Some functionality may be left out from this change. However, if you feel like contributing and debugging some of the features, you are welcome to do so and I will review them in a timely manner.
+
 ## Documentation
 
 UvuvLib Documentation can be found below. 
@@ -39,9 +44,9 @@ Current functionality of UvuvLib is the following:
 16. 1D Kalman Filter
 17. Acorn Tracking (IN VSS, YET TO BE PORTED TO PROS)
 
-Many of these will have bugs as I haven't been able to test most of the code on an actual bot.
+Many of these will have bugs as I never got to test most of the code on an actual bot.
 
-Current timeline is as follows:
+Current timeline was as follows:
 
 1. Skills Simulator, to be able to practice your driving skills runs
 2. Extended Kalman Filter
@@ -77,3 +82,4 @@ https://discord.gg/E6HsRSQd
 You're gonna find the Notebook inside the main folder, the .ipynb file. Installing should be really easy, just make sure you have stuff like Python already installed. Once everythings ready, run **jupyter notebook** in your command prompt of choice inside the directory where the Notebooks stored, and it should be really easy from there. There's key controls on the screen, which will let you wipe out signatures, save up to 7 signatures, pause the output, and obviously close the app.
 
 NOTE: This is a you-code thing, the only thing that comes with the app is some example code. It's just an API with a display. 
+
